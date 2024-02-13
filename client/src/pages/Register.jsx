@@ -18,6 +18,8 @@ export default function Register() {
       });
       console.log("User has been created");
       toast.success("Registered Succesfully!");
+
+      e.target.reset();
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.error);
