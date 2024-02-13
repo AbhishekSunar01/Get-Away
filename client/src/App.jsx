@@ -6,7 +6,7 @@ import Register from "./pages/Register";
 import AddPlaces from "./pages/AddPlaces";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = "http://localhost:4000/api/";
 axios.defaults.withCredentials = true;
 
 export default function App() {
