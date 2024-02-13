@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #fffefc;
+  color: #342e37;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="time"] {
+  @apply w-full border my-3 py-2 px-3 rounded-2xl text-lg outline-none;
+}
+
+button {
+  @apply bg-accent font-semibold transition duration-500;
+}
+
+button.primary {
+  @apply w-full mt-4 py-2 px-3 text-lg shadow-md text-white rounded-xl;
+}
+
+button.primary:hover {
+  @apply shadow-2xl;
+}
+
+.inputContainer {
+  @apply flex flex-col;
+}
+
+.inputContainerTitle {
+  @apply text-xl font-semibold;
+}
+
+.inputContainerInput {
+  @apply text-sm text-gray-600 mt-1;
+}
