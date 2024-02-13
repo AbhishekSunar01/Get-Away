@@ -30,7 +30,7 @@ const register = async (req, res) => {
     });
 
     console.log(`Created new user: ${newUser.email}`);
-    res``
+    res
       .status(201)
       .send({ message: "User registered successfully", user: newUser });
   }

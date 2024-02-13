@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 const port = process.env.PORT;
 
-const userRouter = require("./routes/userRoutes");
+const userRouter = require("./routes/userRoute");
 const logoutRouter = require("./routes/logoutRoute");
 const { verifyJWT } = require("./middleware/verifyJWT");
 
