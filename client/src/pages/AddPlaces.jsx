@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { UserContext } from "../util/UserContext";
+import { Link } from "react-router-dom";
 
 export default function AddPlaces() {
   const [title, setTitle] = useState("");
@@ -11,6 +14,19 @@ export default function AddPlaces() {
   const [checkOut, setCheckOut] = useState("");
   const [images, setImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+
+  const { user } = useContext(UserContext);
+
+  if (!user) {
+    return (
+      <div className="text-center mt-20 text-3xl font-bold text-[#444] w-fit flex mx-auto border border-gray-300 py-16 px-12 rounded-xl bg-gray-50 shadow-lg flex-col">
+        <div>Please login to add a property</div>
+        <Link to="/login" className="text-accent text-lg underline">
+          Login
+        </Link>
+      </div>
+    );
+  }
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -45,13 +61,15 @@ export default function AddPlaces() {
         address: address,
         description: description,
         extraInfo: extraInfo,
-        price: 20000,
+        price: pricePerNight,
         checkIn: checkIn,
         checkOut: checkOut,
       });
       console.log(response.data);
+      toast.success("Property added successfully");
     } catch (error) {
       console.error(error);
+      toast.error("An error occurred");
     }
   };
 

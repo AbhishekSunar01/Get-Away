@@ -36,6 +36,7 @@ export default function Register() {
         <form className="w-full mx-auto" onSubmit={createUser}>
           <input
             type="text"
+            id="name"
             placeholder={"your name"}
             onChange={(e) => {
               setUserName(e.target.value);
@@ -43,6 +44,7 @@ export default function Register() {
           />
           <input
             type="email"
+            id="email"
             placeholder={"your@email.com"}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -50,6 +52,7 @@ export default function Register() {
           />
           <input
             type="password"
+            id="password"
             placeholder="password"
             onChange={(e) => {
               setPassword(e.target.value);

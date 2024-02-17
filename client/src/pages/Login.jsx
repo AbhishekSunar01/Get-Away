@@ -64,6 +64,7 @@ export default function Login() {
       <form className="w-full mx-auto" onSubmit={login}>
         <input
           type="email"
+          id="email"
           placeholder={"your@email.com"}
           onChange={(e) => {
             setEmail(e.target.value);
@@ -71,6 +72,7 @@ export default function Login() {
         />
         <input
           type="password"
+          id="password"
           placeholder="password"
           onChange={(e) => {
             setPassword(e.target.value);

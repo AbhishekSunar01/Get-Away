@@ -13,11 +13,11 @@ export default function Header() {
       </NavLink>
 
       <div className="flex font-semibold border gap-3 text-sm pl-5 items-center rounded-full border-gray-300 py-2 px-2 shadow-sm shadow-gray-300 trasition duration-300 ease-in-out hover:shadow-lg">
-        <div>Anywhere</div>
-        <div className="border-l h-5 border-gray-300"></div>
-        <div>Any week</div>
+        <div>Bookings</div>
         <div className="border-l h-5 border-gray-300"></div>
         <NavLink to="/addPlace">Add Place</NavLink>
+        <div className="border-l h-5 border-gray-300"></div>
+        <div>Search</div>
         <button className="bg-primary text-white p-1 rounded-full">
           <svg
             xmlns="http://www.w3.org/2000/svg"
