@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const port = process.env.PORT;
 
 const app = express();
 app.use(
@@ -17,27 +18,16 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 
-const port = process.env.PORT;
-
 const userRouter = require("./routes/userRoute");
+const profileRouter = require("./routes/profileRoute");
+const propertyRouter = require("./routes/propertyRoute");
 const logoutRouter = require("./routes/logoutRoute");
 const { verifyJWT } = require("./middleware/verifyJWT");
 
-app.get("/", (req, res) => {
-  res.json({ message: "Hello, world!" });
-});
-
 app.use("/api/user", userRouter);
-
 app.use(verifyJWT);
-app.get("/api/profile", async (req, res) => {
-  const user = await prisma.user.findUnique({ where: { id: req.user.id } });
-  res.json(user);
-});
-
-app.get("/api/protected", (req, res) => {
-  res.json({ message: "This is a protected route" });
-});
+app.use("/api/property", propertyRouter);
+app.use("/api/profile", profileRouter);
 app.use("/api/logout", logoutRouter);
 
 app.listen(port, (error) => {

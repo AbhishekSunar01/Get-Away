@@ -13,6 +13,7 @@ model User {
     name         String
     password     String
     refreshToken RefreshToken[]
+    properties   Property[]
 }
 
 model RefreshToken {
@@ -20,4 +21,25 @@ model RefreshToken {
     token  String @unique
     userId Int
     user   User   @relation(fields: [userId], references: [id])
+}
+
+model Property {
+    id          Int     @id @default(autoincrement())
+    title       String
+    address     String
+    description String
+    extraInfo   String
+    checkIn     String
+    checkOut    String
+    price       String
+    Image       Image[]
+    User        User?   @relation(fields: [userId], references: [id])
+    userId      Int?
+}
+
+model Image {
+    id         Int      @id @default(autoincrement())
+    url        String
+    propertyId Int
+    property   Property @relation(fields: [propertyId], references: [id])
 }

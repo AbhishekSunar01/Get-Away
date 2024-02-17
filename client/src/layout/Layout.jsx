@@ -7,7 +7,7 @@ export default function AdminLayout({ user }) {
   return (
     <div className="min-h-screen flex flex-col">
       <Toaster position="top-center" reverseOrder={false} />
-      <Header user={user} />
+      <Header />
       <div className="md:mx-48 mb-12 flex-1">
         <Outlet />
       </div>

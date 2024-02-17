@@ -32,7 +32,10 @@ export default function Profile() {
       <h1>Profile</h1>
       {user && (
         <div>
-          <h2>{user.name}</h2>
+          <h2>
+            {user.id}
+            {user.name}
+          </h2>
           <p>{user.email}</p>
         </div>
       )}

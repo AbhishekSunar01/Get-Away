@@ -5,8 +5,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { UserContext } from "../util/UserContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate(); // Import useNavigate
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -35,9 +38,10 @@ export default function Login() {
       setUser({
         name: response.data.name,
       });
-      toast.success("Logged In Succesfully!");
+      // toast.success("Logged In Succesfully!");
       Cookies.set("token", response.data.token);
-      setRedirect(true); // Set redirect to true after successful login
+      navigate("/"); // Set redirect to true after successful login
+      window.location.reload();
     } catch (error) {
       console.error("Login error:", error);
       setError("An error occurred during login");

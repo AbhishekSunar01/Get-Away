@@ -1,15 +1,25 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 export default function AddPlaces() {
-  const isAuth = true;
+  const [title, setTitle] = useState("");
+  const [address, setAddress] = useState("");
+  const [description, setDescription] = useState("");
+  const [extraInfo, setExtraInfo] = useState("");
+  const [pricePerNight, setPricePerNight] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
   const [images, setImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setImages([...images, reader.result]);
+      setSelectedImages([...selectedImages, reader.result]);
+      setImages([...images, file]);
+      console.log(images);
     };
 
     if (file) {
@@ -17,9 +27,37 @@ export default function AddPlaces() {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    //pricePerNight = parseInt(pricePerNight);
+    console.log(
+      title,
+      address,
+      description,
+      extraInfo,
+      pricePerNight,
+      checkIn,
+      checkOut
+    );
+    try {
+      const response = await axios.post("/property/add", {
+        title: title,
+        address: address,
+        description: description,
+        extraInfo: extraInfo,
+        price: 20000,
+        checkIn: checkIn,
+        checkOut: checkOut,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="mt-12">
-      <form className="flex flex-col gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         {/*/***this is for title */}
         <div className="inputContainer">
           <label className="inputContainerTitle">Title</label>
@@ -28,7 +66,11 @@ export default function AddPlaces() {
               Title from your place. Should be short and catchy as in
               advertisement
             </div>
-            <input type="text" />
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
         </div>
         {/* this is for address */}
@@ -36,7 +78,11 @@ export default function AddPlaces() {
           <label className="inputContainerTitle">Address</label>
           <div className="inputContainerInput">
             <div>Address to this place</div>
-            <input type="text" />
+            <input
+              type="text"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
           </div>
         </div>
         {/* this is for description */}
@@ -47,6 +93,8 @@ export default function AddPlaces() {
             <textarea
               className="border rounded-2xl my-3 w-full outline-none py-2 px-3 h-32 text-lg"
               type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
         </div>
@@ -56,7 +104,7 @@ export default function AddPlaces() {
           <div className="inputContainerInput">Add images here</div>
           <div className="container mx-auto border rounded-2xl my-3 p-2">
             <div className="flex justify-start gap-2">
-              {images.map((image, index) => (
+              {selectedImages.map((image, index) => (
                 <div
                   key={index}
                   className="w-[145px] h-[135px] rounded-lg bg-cover bg-center"
@@ -71,6 +119,7 @@ export default function AddPlaces() {
                     className="hidden"
                     onChange={handleImageChange}
                     accept="image/*"
+                    multiple
                   />
                 </label>
               </div>
@@ -85,6 +134,8 @@ export default function AddPlaces() {
             <textarea
               className="border rounded-2xl w-full my-3 outline-none py-2 px-3 h-32 text-lg"
               type="text"
+              value={extraInfo}
+              onChange={(e) => setExtraInfo(e.target.value)}
             />
           </div>
         </div>
@@ -103,22 +154,36 @@ export default function AddPlaces() {
               <label htmlFor="checkIn" className="font-md">
                 Check in
               </label>
-              <input type="time" id="checkIn" className="mt-3 rounded-md" />
+              <input
+                className="mt-3 rounded-md"
+                type="time"
+                id="checkIn"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+              />
             </div>
             <div className="flex flex-col">
               <label htmlFor="checkOut" className="font-md">
                 Check out
               </label>
-              <input type="time" id="checkOut" className="mt-3 rounded-md" />
+              <input
+                className="mt-3 rounded-md"
+                type="time"
+                id="checkOut"
+                value={checkOut}
+                onChange={(e) => setCheckOut(e.target.value)}
+              />
             </div>
             <div className="flex flex-col">
               <label htmlFor="pricePerNight" className="font-md">
                 Price per night
               </label>
               <input
+                className="mt-1 rounded-md"
                 type="text"
                 id="pricePerNight"
-                className="mt-1 rounded-md"
+                value={pricePerNight}
+                onChange={(e) => setPricePerNight(e.target.value)}
               />
             </div>
           </div>
