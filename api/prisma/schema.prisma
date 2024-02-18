@@ -29,7 +29,6 @@ model Property {
     address     String
     description String
     extraInfo   String
-    location    String
     checkIn     String
     checkOut    String
     price       String

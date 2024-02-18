@@ -242,7 +242,6 @@ export default function AddPlaces() {
   const [checkOut, setCheckOut] = useState("");
   const [extraInfo, setExtraInfo] = useState("");
   const [price, setPrice] = useState("");
-  const [location, setLocation] = useState("");
   const [images, setImages] = useState([]);
 
   const handleSubmit = async (event) => {
@@ -256,7 +255,6 @@ export default function AddPlaces() {
     formData.append("checkOut", checkOut);
     formData.append("extraInfo", extraInfo);
     formData.append("price", price);
-    formData.append("location", location);
     images.forEach((image) => {
       formData.append("images", image);
     });
@@ -314,12 +312,6 @@ export default function AddPlaces() {
         value={price}
         onChange={(e) => setPrice(e.target.value)}
         placeholder="Price"
-      />
-      <input
-        type="text"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        placeholder="Location"
       />
       <input type="file" multiple onChange={handleImageChange} />
       <button type="submit">Add Property</button>

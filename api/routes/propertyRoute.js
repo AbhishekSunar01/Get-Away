@@ -6,6 +6,8 @@ const prisma = new PrismaClient();
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const cookieParser = require("cookie-parser");
+propertyRouter.use(cookieParser());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -26,7 +28,9 @@ const upload = multer({ storage: storage });
 propertyRouter.post("/add", upload.array("images", 5), async (req, res) => {
   const files = req.files;
   const fileUrls = [];
+  const userID = req.user.id;
 
+  console.log(userID);
   try {
     for (const file of files) {
       const fileUrl = file.path;
@@ -40,7 +44,6 @@ propertyRouter.post("/add", upload.array("images", 5), async (req, res) => {
       checkOut: req.body.checkOut,
       extraInfo: req.body.extraInfo,
       price: req.body.price,
-      location: req.body.location,
       images: fileUrls,
     };
 
@@ -48,6 +51,7 @@ propertyRouter.post("/add", upload.array("images", 5), async (req, res) => {
     try {
       createdProperty = await prisma.property.create({
         data: {
+          userId: userID,
           title: propertyData.title,
           address: propertyData.address,
           description: propertyData.description,
@@ -55,7 +59,6 @@ propertyRouter.post("/add", upload.array("images", 5), async (req, res) => {
           price: propertyData.price,
           checkIn: propertyData.checkIn,
           checkOut: propertyData.checkOut,
-          location: propertyData.location,
           Image: {
             create: propertyData.images.map((image) => {
               return {
