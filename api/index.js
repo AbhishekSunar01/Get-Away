@@ -17,6 +17,7 @@ app.use(
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static("uploads"));
 
 const userRouter = require("./routes/userRoute");
 const profileRouter = require("./routes/profileRoute");
@@ -27,6 +28,24 @@ const { verifyJWT } = require("./middleware/verifyJWT");
 app.use("/api/user", userRouter);
 app.use(verifyJWT);
 app.use("/api/property", propertyRouter);
+
+app.get("/api/properties", async (req, res) => {
+  try {
+    const properties = await prisma.property.findMany({
+      include: {
+        Image: true, // Include related Image records
+      },
+    });
+
+    res.json(properties); // Send the properties as a response
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the properties." });
+  }
+});
+
 app.use("/api/profile", profileRouter);
 app.use("/api/logout", logoutRouter);
 
