@@ -31,7 +31,7 @@ export default function Register() {
 
   return (
     <>
-      <div className="flex grow mt-12 items-center justify-around flex-col md:px-[280px] px-[100px]">
+      <div className="flex grow mt-12 items-center justify-around flex-col md:mx-[25%] px-5">
         <h1 className="text-4xl text-center pt-8 pb-5">Register</h1>
         <form className="w-full mx-auto" onSubmit={createUser}>
           <input

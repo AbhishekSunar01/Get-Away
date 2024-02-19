@@ -26,8 +26,6 @@ const logoutRouter = require("./routes/logoutRoute");
 const { verifyJWT } = require("./middleware/verifyJWT");
 
 app.use("/api/user", userRouter);
-app.use(verifyJWT);
-app.use("/api/property", propertyRouter);
 
 app.get("/api/properties", async (req, res) => {
   try {
@@ -45,6 +43,9 @@ app.get("/api/properties", async (req, res) => {
       .json({ error: "An error occurred while fetching the properties." });
   }
 });
+
+app.use(verifyJWT);
+app.use("/api/property", propertyRouter);
 
 app.use("/api/profile", profileRouter);
 app.use("/api/logout", logoutRouter);
