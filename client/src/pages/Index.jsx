@@ -14,8 +14,8 @@ export default function Index() {
   return (
     <div>
       <div className="mt-12 flex justify-between flex-wrap gap-8">
-        {properties.map((property) => (
-          <Property key={property._id} property={property} />
+        {properties.map((property, index) => (
+          <Property key={index} property={property} />
         ))}
       </div>
     </div>

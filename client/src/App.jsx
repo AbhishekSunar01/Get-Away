@@ -7,7 +7,6 @@ import AddPlaces from "./pages/AddPlaces";
 import axios from "axios";
 import Profile from "./pages/Profile";
 import { UserContextProvider } from "./util/UserContext";
-import PropertyList from "./pages/Properties";
 
 axios.defaults.baseURL = "http://localhost:4000/api/";
 axios.defaults.withCredentials = true;
@@ -23,7 +22,6 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/addPlace" element={<AddPlaces />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/property" element={<PropertyList />} />
         </Route>
       </Routes>
     </UserContextProvider>
