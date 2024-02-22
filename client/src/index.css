@@ -20,6 +20,10 @@ input[type="time"] {
   @apply w-full border my-3 py-2 px-3 rounded-2xl text-lg outline-none;
 }
 
+input[type="date"] {
+  @apply bg-gray-100 outline-none font-medium border-2 rounded-xl px-3 py-2 border-white;
+}
+
 button {
   @apply bg-accent font-semibold transition duration-500;
 }
@@ -42,4 +46,13 @@ button.primary:hover {
 
 .inputContainerInput {
   @apply text-sm text-gray-600 mt-1;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

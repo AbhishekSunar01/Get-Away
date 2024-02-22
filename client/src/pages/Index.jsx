@@ -13,7 +13,7 @@ export default function Index() {
 
   return (
     <div>
-      <div className="mt-12 flex justify-between flex-wrap gap-8">
+      <div className="mt-12 grid grid-cols-3 gap-5 sm:gap-8 md:gap-16 lg:gap-16">
         {properties.map((property, index) => (
           <Property key={index} property={property} />
         ))}

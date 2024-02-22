@@ -44,9 +44,29 @@ app.get("/api/properties", async (req, res) => {
   }
 });
 
+app.get("/api/property/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const property = await prisma.property.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+      include: {
+        Image: true, // Include related Image records
+      },
+    });
+
+    res.json(property); // Send the property as a response
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the property." });
+  }
+});
+
 app.use(verifyJWT);
 app.use("/api/property", propertyRouter);
-
 app.use("/api/profile", profileRouter);
 app.use("/api/logout", logoutRouter);
 
