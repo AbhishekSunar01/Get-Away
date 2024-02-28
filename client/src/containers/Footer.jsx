@@ -4,7 +4,7 @@ import tiktok from "../assets/icons/tiktok.svg";
 
 export default function () {
   return (
-    <div className="px-48 font-medium border border-t py-4 flex items-center justify-between">
+    <div className="md:px-48 px-4 font-medium border border-t py-4 flex items-center justify-between">
       <div className="flex items-center gap-2 text-lg">
         <div className="text-2xl">©</div>
         <span>2024 Gateaway, Inc</span>
