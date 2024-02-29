@@ -23,9 +23,9 @@ export default function AddPlaces() {
 
   if (!user) {
     return (
-      <div className="text-center mt-20 text-3xl font-bold w-fit flex mx-auto border border-gray-300 py-16 px-12 rounded-xl bg-third shadow-lg flex-col">
-        <div className="text-white">Please login to add a property</div>
-        <Link to="/login" className="text-lg text-white underline">
+      <div className="container text-center mt-20 text-3xl font-bold w-fit flex mx-auto border border-gray-300 py-20 px-12 rounded-xl shadow-lg flex-col text-white">
+        <div className="">Please login to add a property</div>
+        <Link to="/login" className="text-lg text-accent underline">
           Login
         </Link>
       </div>
@@ -83,6 +83,7 @@ export default function AddPlaces() {
         desc="Description of this place"
         value={description}
         onchange={(e) => setDescription(e.target.value)}
+        required
       />
 
       <div className="inputContainer my-4">
@@ -96,6 +97,7 @@ export default function AddPlaces() {
             className="my-3 bg-gray-100 p-2 rounded-md"
             multiple
             onChange={handleImageChange}
+            required
           />
         </div>
 
@@ -134,6 +136,7 @@ export default function AddPlaces() {
             id="checkIn"
             value={checkIn}
             onchange={(e) => setCheckIn(e.target.value)}
+            type="time"
           />
 
           <AddPlaceCCP
@@ -141,6 +144,7 @@ export default function AddPlaces() {
             id="checkOut"
             value={checkOut}
             onchange={(e) => setCheckOut(e.target.value)}
+            type="time"
           />
 
           <AddPlaceCCP
@@ -148,6 +152,7 @@ export default function AddPlaces() {
             id="price"
             value={price}
             onchange={(e) => setPrice(e.target.value)}
+            type="text"
           />
         </div>
       </div>

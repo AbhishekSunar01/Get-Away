@@ -1,4 +1,4 @@
-export default function AddPlaceCCP({ label, id, value, onchange }) {
+export default function AddPlaceCCP({ label, type, id, value, onchange }) {
   return (
     <div className="flex flex-col">
       <label htmlFor="checkIn" className="font-md">
@@ -6,10 +6,11 @@ export default function AddPlaceCCP({ label, id, value, onchange }) {
       </label>
       <input
         className="mt-3 rounded-md"
-        type="text"
+        type={type}
         id={id}
         value={value}
         onChange={onchange}
+        required
       />
     </div>
   );

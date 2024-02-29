@@ -10,6 +10,7 @@ export default function AddPlaceInputText({ title, desc, value, onchange }) {
         type="text"
         value={value}
         onChange={onchange}
+        required
       />
     </div>
   );
