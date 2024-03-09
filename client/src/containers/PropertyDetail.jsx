@@ -121,7 +121,7 @@ export default function PropertyDetail() {
         </div>
       </div>
 
-      <div className="w-full bg-gray-100 px-28 shadow-lg py-6 rounded-2xl">
+      <div className="w-full bg-gray-100 px-10 shadow-lg py-6 rounded-2xl">
         <h1 className="text-3xl font-semibold">Extra Info</h1>
         <p>{property.extraInfo}</p>
       </div>

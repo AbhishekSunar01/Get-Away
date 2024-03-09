@@ -23,6 +23,7 @@ const userRouter = require("./routes/userRoute");
 const profileRouter = require("./routes/profileRoute");
 const propertyRouter = require("./routes/propertyRoute");
 const logoutRouter = require("./routes/logoutRoute");
+const bookingRouter = require("./routes/bookingRoute");
 const { verifyJWT } = require("./middleware/verifyJWT");
 
 app.use("/api/user", userRouter);
@@ -69,6 +70,7 @@ app.use(verifyJWT);
 app.use("/api/property", propertyRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/logout", logoutRouter);
+app.use("/api/booking", bookingRouter);
 
 app.listen(port, (error) => {
   if (error) throw error;

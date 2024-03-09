@@ -1,12 +1,14 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../util/UserContext";
 import { Link } from "react-router-dom";
-import AddPlaceInputText from "../components/formComponents/AddPlaceInputText";
-import AddPlaceInputArea from "../components/formComponents/AddPlaceInputArea";
-import toast from "react-hot-toast";
-import AddPlaceCCP from "../components/formComponents/AddPlaceInputCCP";
-import AddPlaceLabel from "../components/formComponents/AddPlaceLabel";
+import {
+  AddPlaceInputArea,
+  AddPlaceInputCCP,
+  AddPlaceInputText,
+  AddPlaceLabel,
+} from "../components/formComponents/index";
+import { toast } from "react-hot-toast";
 
 export default function AddPlaces() {
   const [title, setTitle] = useState("");
@@ -131,7 +133,7 @@ export default function AddPlaces() {
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <AddPlaceCCP
+          <AddPlaceInputCCP
             label="Check in"
             id="checkIn"
             value={checkIn}
@@ -139,7 +141,7 @@ export default function AddPlaces() {
             type="time"
           />
 
-          <AddPlaceCCP
+          <AddPlaceInputCCP
             label="Check out"
             id="checkOut"
             value={checkOut}
@@ -147,7 +149,7 @@ export default function AddPlaces() {
             type="time"
           />
 
-          <AddPlaceCCP
+          <AddPlaceInputCCP
             label="Price"
             id="price"
             value={price}
