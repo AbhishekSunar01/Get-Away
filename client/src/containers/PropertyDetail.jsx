@@ -5,6 +5,10 @@ import axios from "axios";
 export default function PropertyDetail() {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
+  const propertyId = property?.id;
+
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -22,6 +26,31 @@ export default function PropertyDetail() {
   if (!property) {
     return <div>Loading...</div>;
   }
+
+  const bookPlace = async () => {
+    if (!checkIn || !checkOut) {
+      console.error("Check-in and check-out dates are required");
+      return;
+    }
+
+    if (!propertyId) {
+      console.error("Property ID is not available");
+      return;
+    }
+    const checkInDateTime = `${checkIn}T00:00:00Z`;
+    const checkOutDateTime = `${checkOut}T00:00:00Z`;
+
+    try {
+      const response = await axios.post(`/booking/add/${propertyId}`, {
+        checkIn: checkInDateTime,
+        checkOut: checkOutDateTime,
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="mt-14 flex flex-col gap-5">
@@ -109,15 +138,25 @@ export default function PropertyDetail() {
 
           <div className="flex flex-col gap-2">
             <label>Check In:</label>
-            <input type="date" />
+            <input
+              type="date"
+              value={checkIn}
+              onChange={(e) => setCheckIn(e.target.value)}
+            />
           </div>
 
           <div className="flex flex-col gap-2">
             <label>Check In:</label>
-            <input type="date" />
+            <input
+              type="date"
+              value={checkOut}
+              onChange={(e) => setCheckOut(e.target.value)}
+            />
           </div>
 
-          <button className="primary">Book this place</button>
+          <button className="primary" onClick={bookPlace}>
+            Book this place
+          </button>
         </div>
       </div>
 

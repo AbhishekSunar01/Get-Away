@@ -6,8 +6,13 @@ const addBooking = async (req, res) => {
   const userId = req.user.id;
   const { checkIn, checkOut } = req.body;
 
+  // Validate checkIn and checkOut
+  if (!Date.parse(checkIn) || !Date.parse(checkOut)) {
+    return res.status(400).json({ error: "Invalid checkIn or checkOut date." });
+  }
+
   try {
-    const booking = await prisma.booking.create({
+    const booking = await prisma.bookings.create({
       data: {
         checkIn,
         checkOut,
@@ -27,13 +32,18 @@ const addBooking = async (req, res) => {
 
 const getBookings = async (req, res) => {
   try {
-    const bookings = await prisma.booking.findMany({
+    const userId = req.userId; // Get the user's ID from the request
+
+    const bookings = await prisma.bookings.findMany({
+      where: {
+        userId: userId, // Only fetch bookings made by this user
+      },
       include: {
-        property: true, // Include related property records
+        property: true,
       },
     });
 
-    res.json(bookings); // Send the bookings as a response
+    res.json(bookings);
   } catch (error) {
     console.error(error);
     res

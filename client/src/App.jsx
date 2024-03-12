@@ -8,6 +8,7 @@ import axios from "axios";
 import Profile from "./pages/Profile";
 import { UserContextProvider } from "./util/UserContext";
 import PropertyDetail from "./containers/PropertyDetail";
+import Bookings from "./pages/Bookings";
 
 axios.defaults.baseURL = "http://localhost:4000/api/";
 axios.defaults.withCredentials = true;
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/addPlace" element={<AddPlaces />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/property/:id" element={<PropertyDetail />} />
+          <Route path="/bookings" element={<Bookings />} />
         </Route>
       </Routes>
     </UserContextProvider>

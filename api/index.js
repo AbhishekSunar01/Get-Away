@@ -32,11 +32,11 @@ app.get("/api/properties", async (req, res) => {
   try {
     const properties = await prisma.property.findMany({
       include: {
-        Image: true, // Include related Image records
+        Image: true,
       },
     });
 
-    res.json(properties); // Send the properties as a response
+    res.json(properties);
   } catch (error) {
     console.error(error);
     res
