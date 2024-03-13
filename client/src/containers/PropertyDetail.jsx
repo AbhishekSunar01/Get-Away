@@ -1,14 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function PropertyDetail() {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
-  const propertyId = property?.id;
 
+  const propertyId = property?.id;
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -30,6 +32,7 @@ export default function PropertyDetail() {
   const bookPlace = async () => {
     if (!checkIn || !checkOut) {
       console.error("Check-in and check-out dates are required");
+      toast.error("Check-in and check-out dates are required");
       return;
     }
 
@@ -37,6 +40,20 @@ export default function PropertyDetail() {
       console.error("Property ID is not available");
       return;
     }
+
+    // Convert checkIn and checkOut to Date objects
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+
+    // Calculate the difference in time between checkOut and checkIn in milliseconds
+    const diffTime = checkOutDate.getTime() - checkInDate.getTime();
+
+    // Convert the time difference to days
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    // Calculate the total price
+    const totalPrice = diffDays * property.price;
+
     const checkInDateTime = `${checkIn}T00:00:00Z`;
     const checkOutDateTime = `${checkOut}T00:00:00Z`;
 
@@ -47,8 +64,10 @@ export default function PropertyDetail() {
       });
 
       console.log(response.data);
+      toast.success("Property booked successfully");
     } catch (error) {
       console.error(error);
+      toast.error("Login to book this property.");
     }
   };
 

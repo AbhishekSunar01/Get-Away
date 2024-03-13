@@ -32,15 +32,25 @@ const addBooking = async (req, res) => {
 
 const getBookings = async (req, res) => {
   try {
-    const userId = req.userId; // Get the user's ID from the request
-
+    const userId = req.user.id;
     const bookings = await prisma.bookings.findMany({
       where: {
-        userId: userId, // Only fetch bookings made by this user
+        userId: userId,
       },
       include: {
-        property: true,
+        property: {
+          include: {
+            Image: true,
+            User: true,
+          },
+        },
+        user: true,
       },
+    });
+
+    // Print the user who added the property for each booking
+    bookings.forEach((booking) => {
+      console.log(booking.property.User);
     });
 
     res.json(bookings);
@@ -49,6 +59,25 @@ const getBookings = async (req, res) => {
     res
       .status(500)
       .json({ error: "An error occurred while fetching the bookings." });
+  }
+};
+
+const deleteBooking = async (req, res) => {
+  const bookingId = req.params.id;
+
+  try {
+    await prisma.bookings.delete({
+      where: {
+        id: parseInt(bookingId),
+      },
+    });
+
+    res.json({ message: "Booking deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the booking." });
   }
 };
 
