@@ -96,3 +96,7 @@ button.primary:hover {
     background-position: 40px 40px;
   }
 }
+
+.overlay {
+  @apply fixed top-0 left-0 w-full h-full flex bg-[#222]/75 backdrop-blur-[2px] z-50;
+}

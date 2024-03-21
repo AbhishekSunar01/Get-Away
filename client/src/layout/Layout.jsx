@@ -3,10 +3,10 @@ import { Outlet } from "react-router-dom";
 import Header from "../containers/Header";
 import Footer from "../containers/Footer";
 
-export default function AdminLayout() {
+export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="bottom-left" reverseOrder={false} />
 
       <Header />
       <div className="md:mx-48 mb-12 flex-1">
