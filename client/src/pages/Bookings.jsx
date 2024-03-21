@@ -45,10 +45,10 @@ export default function Bookings() {
   return (
     <div>
       <h1 className="mt-6 font-semibold text-xl">Bookings</h1>
-      <div className="mt-4 flex flex-col gap-4">
+      <div className="mt-4 flex flex-col gap-8">
         {bookings.map((booking) => (
           <div
-            className="w-full flex gap-4 bg-gray-100 shadow-sm rounded-xl overflow-hidden "
+            className="w-full flex gap-4 bg-gray-100 shadow-lg rounded-xl overflow-hidden hover:shadow-xl ease-linear transition-all duration-300 cursor-pointer"
             key={booking.id}
           >
             <img
