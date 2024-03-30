@@ -45,6 +45,13 @@ app.get("/api/properties", async (req, res) => {
   }
 });
 
+app.use(verifyJWT);
+app.use("/api/property", propertyRouter);
+app.use("/api/profile", profileRouter);
+app.use("/api/logout", logoutRouter);
+app.use("/api/booking", bookingRouter);
+
+//This is for property details
 app.get("/api/property/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -65,12 +72,6 @@ app.get("/api/property/:id", async (req, res) => {
       .json({ error: "An error occurred while fetching the property." });
   }
 });
-
-app.use(verifyJWT);
-app.use("/api/property", propertyRouter);
-app.use("/api/profile", profileRouter);
-app.use("/api/logout", logoutRouter);
-app.use("/api/booking", bookingRouter);
 
 app.listen(port, (error) => {
   if (error) throw error;

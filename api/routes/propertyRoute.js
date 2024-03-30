@@ -4,7 +4,11 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const cookieParser = require("cookie-parser");
-const { addProperties } = require("../controllers/propertyController");
+const {
+  addProperties,
+  getPropertiesByOwner,
+  deleteProperty,
+} = require("../controllers/propertyController");
 propertyRouter.use(cookieParser());
 
 const storage = multer.diskStorage({
@@ -23,5 +27,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 propertyRouter.post("/add", upload.array("images", 5), addProperties);
+propertyRouter.get("/myproperties", getPropertiesByOwner);
+propertyRouter.delete("/delete/:id", deleteProperty);
 
 module.exports = propertyRouter;

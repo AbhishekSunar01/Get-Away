@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { UserContext } from "../util/UserContext";
 import { Link } from "react-router-dom";
+import BookingComponent from "../components/BookingComponent";
 
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
@@ -42,35 +43,23 @@ export default function Bookings() {
     );
   }
 
+  if (bookings.length === 0) {
+    return (
+      <div className="container text-center mt-20 text-3xl font-bold w-fit flex mx-auto border border-gray-300 py-20 px-12 rounded-xl shadow-lg flex-col text-white">
+        <div className="">You have no bookings</div>
+        <Link to="/" className="text-lg text-accent underline">
+          Book a property
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h1 className="mt-6 font-semibold text-xl">Bookings</h1>
+      <h1 className="mt-6 font-semibold text-3xl">Bookings</h1>
       <div className="mt-4 flex flex-col gap-8">
         {bookings.map((booking) => (
-          <div
-            className="w-full flex gap-4 bg-gray-100 shadow-lg rounded-xl overflow-hidden hover:shadow-xl ease-linear transition-all duration-300 cursor-pointer"
-            key={booking.id}
-          >
-            <img
-              src={booking.property.Image[0].url}
-              alt={booking.property.title}
-              className="w-48 rounded-l-md"
-            />
-            <div className="py-2 flex flex-col h-full items-start justify-center my-auto">
-              <h2 className="text-xl text-primary font-semibold">
-                {booking.property.title}
-              </h2>
-              <div className="leading-tight">
-                <p>Address: {booking.property.address}</p>
-                <p>
-                  Check-in: {new Date(booking.checkIn).toLocaleDateString()}
-                </p>
-                <p>
-                  Check-out: {new Date(booking.checkOut).toLocaleDateString()}
-                </p>
-              </div>
-            </div>
-          </div>
+          <BookingComponent booking={booking} key={booking.id} />
         ))}
       </div>
     </div>

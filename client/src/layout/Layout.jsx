@@ -6,7 +6,7 @@ import Footer from "../containers/Footer";
 export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
-      <Toaster position="bottom-left" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
 
       <Header />
       <div className="md:mx-48 mb-12 flex-1">

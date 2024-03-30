@@ -78,10 +78,49 @@ const addProperties = async (req, res) => {
   }
 };
 
-const deleteProperty = async (req, res) => {
-  const propertyId = req.params.id;
+const getPropertiesByOwner = async (req, res) => {
+  console.log("getPropertiesByOwner called");
+
+  const ownerId = req.user.id;
+  console.log("ownerId:", ownerId);
 
   try {
+    const properties = await prisma.property.findMany({
+      where: {
+        userId: ownerId,
+      },
+      include: {
+        Image: true,
+      },
+    });
+
+    console.log("properties:", properties);
+    res.json(properties);
+  } catch (error) {
+    console.error("Error in getPropertiesByOwner:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the properties." });
+  }
+};
+
+const deleteProperty = async (req, res) => {
+  const propertyId = req.params.id;
+  console.log(propertyId);
+
+  try {
+    await prisma.image.deleteMany({
+      where: {
+        propertyId: parseInt(propertyId),
+      },
+    });
+
+    await prisma.bookings.deleteMany({
+      where: {
+        propertyId: parseInt(propertyId),
+      },
+    });
+
     await prisma.property.delete({
       where: {
         id: parseInt(propertyId),
@@ -90,13 +129,12 @@ const deleteProperty = async (req, res) => {
 
     res.json({ message: "Property deleted successfully" });
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while deleting the property." });
+    console.error("Error deleting property: ", error);
+    res.status(500).json({
+      error: `An error occurred while deleting the property: ${error.message}`,
+    });
   }
 };
-
 const updateProperty = async (req, res) => {
   const propertyId = req.params.id;
   const files = req.files;
@@ -158,4 +196,9 @@ const updateProperty = async (req, res) => {
   }
 };
 
-module.exports = { getProperties, addProperties };
+module.exports = {
+  getProperties,
+  addProperties,
+  getPropertiesByOwner,
+  deleteProperty,
+};

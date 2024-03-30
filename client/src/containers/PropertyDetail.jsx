@@ -88,7 +88,7 @@ export default function PropertyDetail() {
           <p>{property.description}</p>
         </div>
 
-        <div className="w-[45%] shadow-lg bg-gray-100 font-semibold rounded-2xl py-5 px-4 flex flex-col gap-4">
+        <div className="w-[45%] shadow-lg bg-background font-semibold rounded-2xl py-5 px-4 flex flex-col gap-4">
           <h1 className=" text-xl text-center">
             Price: Rs{property.price} per night
           </h1>
@@ -103,7 +103,7 @@ export default function PropertyDetail() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label>Check In:</label>
+            <label>Check Out:</label>
             <input
               type="date"
               value={checkOut}
