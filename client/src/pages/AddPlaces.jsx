@@ -26,7 +26,7 @@ export default function AddPlaces() {
   if (!user) {
     return (
       <div className="container text-center mt-20 text-3xl font-bold w-fit flex mx-auto border border-gray-300 py-20 px-12 rounded-xl shadow-lg flex-col text-white">
-        <div className="">Please login to add a property</div>
+        <div className="">Please login to add a property 🔒</div>
         <Link to="/login" className="text-lg text-accent underline">
           Login
         </Link>

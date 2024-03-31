@@ -57,8 +57,6 @@ export default function UpdatePlace() {
     const response = await axios.put(`property/update/${id}`, property);
     if (response.status === 200) {
       toast.success("Property updated successfully");
-    } else {
-      toast.success("Property updated successfully");
     }
   }
 

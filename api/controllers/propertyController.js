@@ -93,8 +93,6 @@ const getPropertiesByOwner = async (req, res) => {
         Image: true,
       },
     });
-
-    console.log("properties:", properties);
     res.json(properties);
   } catch (error) {
     console.error("Error in getPropertiesByOwner:", error);
@@ -168,7 +166,7 @@ const updateProperty = async (req, res) => {
       message: "Property updated successfully",
       property: updatedProperty,
     };
-    res.status(201).json(response);
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

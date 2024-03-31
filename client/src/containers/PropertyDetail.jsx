@@ -7,6 +7,7 @@ import {
   ImageDetails,
   ExtraInfo,
 } from "../components/propertyDetails/index";
+import { Link } from "react-router-dom";
 
 export default function PropertyDetail() {
   const { id } = useParams();
@@ -31,7 +32,14 @@ export default function PropertyDetail() {
   }, [id]);
 
   if (!property) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container text-center mt-20 text-3xl font-bold w-fit flex mx-auto border border-gray-300 py-20 px-12 rounded-xl shadow-lg flex-col text-white">
+        <div className="">Please login to see property details 🔒</div>
+        <Link to="/login" className="text-lg text-accent underline">
+          Login
+        </Link>
+      </div>
+    );
   }
 
   const bookPlace = async () => {
