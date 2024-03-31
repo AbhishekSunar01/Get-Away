@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { AddPlaceInputText } from "../components/formComponents";
+import toast from "react-hot-toast";
 
 export default function UpdatePlace() {
   const { id } = useParams();
   const [property, setProperty] = useState({
-    name: "",
+    title: "",
     description: "",
     address: "",
     checkIn: "",
     checkOut: "",
     extraInfo: "",
     price: "",
-    images: [],
   });
 
   useEffect(() => {
@@ -22,14 +23,13 @@ export default function UpdatePlace() {
 
       // Ensure all fields are defined
       setProperty({
-        name: data.name || "",
+        title: data.title || "",
         description: data.description || "",
         address: data.address || "",
         checkIn: data.checkIn || "",
         checkOut: data.checkOut || "",
         extraInfo: data.extraInfo || "",
         price: data.price || "",
-        images: data.images || [],
       });
     }
     fetchProperty();
@@ -56,95 +56,109 @@ export default function UpdatePlace() {
     e.preventDefault();
     const response = await axios.put(`property/update/${id}`, property);
     if (response.status === 200) {
-      console.log("Property updated successfully");
+      toast.success("Property updated successfully");
     } else {
-      console.error("Failed to update property:", response.data);
+      toast.success("Property updated successfully");
     }
   }
 
   return (
     <div>
-      <h1>Update Place</h1>
-
-      <form onSubmit={updateProperty}>
-        <label>
+      <div className="my-6 font-semibold text-3xl">
+        Hey there you can update your property here 🏠.
+      </div>
+      <form onSubmit={updateProperty} className="flex flex-col gap-4">
+        <label className="updateLabel">
           Title:
+          <div className="desc">Update your property title here</div>
           <input
             type="text"
             name="title"
             value={property.title}
             onChange={handleChange}
+            className="updateInputText"
           />
         </label>
-        <label>
+        <label className="updateLabel">
           Address:
+          <div className="desc">Update your property address here</div>
           <input
             type="text"
             name="address"
             value={property.address}
             onChange={handleChange}
+            className="updateInputText"
           />
         </label>
-        <label>
+        <label className="updateLabel">
           Description:
+          <div className="desc">Update your property description here</div>
           <textarea
             name="description"
             value={property.description}
             onChange={handleChange}
+            className="updateInputArea"
           />
         </label>
-        <label>
-          Check In:
-          <input
-            type="text"
-            name="checkIn"
-            value={property.checkIn}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Check Out:
-          <input
-            type="text"
-            name="checkOut"
-            value={property.checkOut}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
+        <label className="updateLabel">
           Extra Info:
-          <input
+          <div className="desc">Update your property extra into here</div>
+          <textarea
             type="text"
             name="extraInfo"
             value={property.extraInfo}
             onChange={handleChange}
+            className="updateInputArea"
           />
         </label>
-        <label>
-          Price:
-          <input
-            type="text"
-            name="price"
-            value={property.price}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Images:
-          <input type="file" name="images" multiple />
-        </label>
-        <div>
-          {property.images &&
-            property.images.map((image, index) => (
-              <img key={index} src={image.url} alt={image.alt} />
-            ))}
+
+        <div className="flex justify-between gap-4">
+          <label className="updateLabel w-full">
+            Check In:
+            <div className="desc">Update your check in time here</div>
+            <input
+              type="text"
+              name="checkIn"
+              value={property.checkIn}
+              onChange={handleChange}
+              className="updateInputText"
+            />
+          </label>
+          <label className="updateLabel w-full">
+            Check Out:
+            <div className="desc">Update your check out time here</div>
+            <input
+              type="text"
+              name="checkOut"
+              value={property.checkOut}
+              onChange={handleChange}
+              className="updateInputText"
+            />
+          </label>
+          <label className="updateLabel w-full">
+            Price:
+            <div className="desc">Update your property price here</div>
+            <input
+              type="text"
+              name="price"
+              value={property.price}
+              onChange={handleChange}
+              className="updateInputText"
+            />
+          </label>
         </div>
-        <br />
-        <br />
-        <button type="submit">Update Property</button>
+        <div className="w-3/4 mx-auto">
+          <button type="submit" className="primary bg-accent">
+            Update Property
+          </button>
+        </div>
       </form>
 
-      <button onClick={deleteProperty}>Delete Property</button>
+      <div className="w-3/4 mx-auto">
+        <button className="primary bg-third" onClick={deleteProperty}>
+          Delete Property
+        </button>
+      </div>
     </div>
   );
 }

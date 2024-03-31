@@ -135,56 +135,34 @@ const deleteProperty = async (req, res) => {
     });
   }
 };
+
 const updateProperty = async (req, res) => {
   const propertyId = req.params.id;
-  const files = req.files;
-  const fileUrls = [];
+  const propertyData = {
+    title: req.body.title,
+    address: req.body.address,
+    description: req.body.description,
+    checkIn: req.body.checkIn,
+    checkOut: req.body.checkOut,
+    extraInfo: req.body.extraInfo,
+    price: req.body.price,
+  };
 
   try {
-    for (const file of files) {
-      const fileUrl = file.path;
-      fileUrls.push(fileUrl);
-    }
-    const propertyData = {
-      title: req.body.title,
-      address: req.body.address,
-      description: req.body.description,
-      checkIn: req.body.checkIn,
-      checkOut: req.body.checkOut,
-      extraInfo: req.body.extraInfo,
-      price: req.body.price,
-      images: fileUrls,
-    };
-
-    let updatedProperty;
-    try {
-      updatedProperty = await prisma.property.update({
-        where: {
-          id: parseInt(propertyId),
-        },
-        data: {
-          title: propertyData.title,
-          address: propertyData.address,
-          description: propertyData.description,
-          extraInfo: propertyData.extraInfo,
-          price: propertyData.price,
-          checkIn: propertyData.checkIn,
-          checkOut: propertyData.checkOut,
-          Image: {
-            deleteMany: {},
-            create: propertyData.images.map((image) => {
-              return {
-                url: `http://localhost:4000/${image.replace(/\\/g, "/")}`,
-              };
-            }),
-          },
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error.message });
-      return;
-    }
+    const updatedProperty = await prisma.property.update({
+      where: {
+        id: parseInt(propertyId),
+      },
+      data: {
+        title: propertyData.title,
+        address: propertyData.address,
+        description: propertyData.description,
+        extraInfo: propertyData.extraInfo,
+        price: propertyData.price,
+        checkIn: propertyData.checkIn,
+        checkOut: propertyData.checkOut,
+      },
+    });
 
     const response = {
       message: "Property updated successfully",

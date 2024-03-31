@@ -71,17 +71,16 @@ button.primary:hover {
   align-items: center;
 
   /* Dark mode colors and gradient */
-  background: #121212; /* Fallback for browsers that don't support gradients */
-  background: linear-gradient(
-    135deg,
-    #121212 25%,
-    #1a1a1a 25%,
-    #1a1a1a 50%,
-    #121212 50%,
-    #121212 75%,
-    #1a1a1a 75%,
-    #1a1a1a
-  );
+  background: #121212;
+  /* Fallback for browsers that don't support gradients */
+  background: linear-gradient(135deg,
+      #121212 25%,
+      #1a1a1a 25%,
+      #1a1a1a 50%,
+      #121212 50%,
+      #121212 75%,
+      #1a1a1a 75%,
+      #1a1a1a);
   background-size: 40px 40px;
 
   /* Animation */
@@ -92,6 +91,7 @@ button.primary:hover {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 40px 40px;
   }
@@ -99,4 +99,20 @@ button.primary:hover {
 
 .overlay {
   @apply fixed top-0 left-0 w-full h-full flex bg-[#222]/75 backdrop-blur-[2px] z-50;
+}
+
+.updateLabel {
+  @apply text-xl font-semibold;
+}
+
+.updateInputText {
+  @apply w-full font-medium border my-1 py-2 px-3 rounded-2xl text-lg outline-none;
+}
+
+.updateInputArea {
+  @apply w-full font-medium border my-1 py-2 px-3 rounded-2xl h-56 text-lg outline-none;
+}
+
+.desc {
+  @apply text-sm font-normal text-gray-600 mt-1;
 }
