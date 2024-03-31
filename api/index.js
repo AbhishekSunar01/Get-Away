@@ -45,11 +45,11 @@ app.get("/api/properties", async (req, res) => {
   }
 });
 
-app.use(verifyJWT);
-app.use("/api/property", propertyRouter);
-app.use("/api/profile", profileRouter);
-app.use("/api/logout", logoutRouter);
-app.use("/api/booking", bookingRouter);
+// app.use(verifyJWT);
+app.use("/api/property", verifyJWT, propertyRouter);
+app.use("/api/profile", verifyJWT, profileRouter);
+app.use("/api/logout", verifyJWT, logoutRouter);
+app.use("/api/booking", verifyJWT, bookingRouter);
 
 //This is for property details
 app.get("/api/property/:id", async (req, res) => {

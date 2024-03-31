@@ -201,4 +201,5 @@ module.exports = {
   addProperties,
   getPropertiesByOwner,
   deleteProperty,
+  updateProperty,
 };

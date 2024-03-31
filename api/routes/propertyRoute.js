@@ -8,6 +8,7 @@ const {
   addProperties,
   getPropertiesByOwner,
   deleteProperty,
+  updateProperty,
 } = require("../controllers/propertyController");
 propertyRouter.use(cookieParser());
 
@@ -29,5 +30,6 @@ const upload = multer({ storage: storage });
 propertyRouter.post("/add", upload.array("images", 5), addProperties);
 propertyRouter.get("/myproperties", getPropertiesByOwner);
 propertyRouter.delete("/delete/:id", deleteProperty);
+propertyRouter.put("/update/:id", upload.array("images", 5), updateProperty);
 
 module.exports = propertyRouter;
