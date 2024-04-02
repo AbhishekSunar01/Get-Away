@@ -116,3 +116,18 @@ button.primary:hover {
 .desc {
   @apply text-sm font-normal text-gray-600 mt-1;
 }
+
+.search-bar {
+  transition: max-height 0.2s ease-out, opacity 0.2s ease-out;
+  transition-delay: 0.2s;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.search-bar.visible {
+  max-height: 100px;
+  /* Adjust as needed */
+  opacity: 1;
+  transition-delay: 4s;
+}
