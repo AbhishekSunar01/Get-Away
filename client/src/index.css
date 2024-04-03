@@ -131,3 +131,7 @@ button.primary:hover {
   opacity: 1;
   transition-delay: 4s;
 }
+
+.option {
+  @apply flex items-center;
+}

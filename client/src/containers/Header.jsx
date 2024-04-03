@@ -15,6 +15,7 @@ export default function Header() {
       setIsSearchVisible(true);
     }
   };
+
   return (
     <div className="md:px-48 px-[20px] border-b shadow-sm py-6 flex justify-between items-center">
       <NavLink to="/" className="flex items-center gap-1  ">

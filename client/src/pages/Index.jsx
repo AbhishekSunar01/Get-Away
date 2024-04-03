@@ -93,34 +93,43 @@ export default function Index() {
   return (
     <div>
       {isSearchVisible && (
-        <div className={`search-bar ${isSearchVisible ? "visible" : ""} mt-4`}>
-          <div className="w-full">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search"
-              className="py-2 px-6 border border-gray-300 rounded-md w-full shadow-md text-2xl"
-            />
-          </div>
-          <div className="flex gap-4 justify-end mt-2">
+        <div className="flex items-center justify-center mt-4 gap-4">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search"
+            className="py-2 px-6 border border-gray-300 rounded-md w-full text-2xl"
+          />
+
+          <div className="flex gap-4 justify-end ">
             <select
-              className="bg-primary outline-none text-white text-xl px-2 rounded-xl "
+              className="border border-gray-300 outline-none p-2 rounded-xl "
               value={sortKey}
               onChange={(e) => setSortKey(e.target.value)}
             >
-              <option value="price">Price</option>
-              <option value="name">Name</option>
-              <option value="address">Address</option>
+              <option className="option" value="price">
+                💵 Price
+              </option>
+              <option className="option" value="name">
+                🏠 Name
+              </option>
+              <option className="option" value="address">
+                📍 Address
+              </option>
             </select>
             {sortKey === "price" && (
               <select
-                className="bg-primary outline-none text-white text-xl px-2 rounded-xl"
+                className="border border-gray-300 outline-none p-2 rounded-xl "
                 value={sortDirection}
                 onChange={(e) => setSortDirection(e.target.value)}
               >
-                <option value="asc">Low to high</option>
-                <option value="desc">High to low</option>
+                <option className="option" value="asc">
+                  ⬆️ Low to high
+                </option>
+                <option className="option" value="desc">
+                  ⬇️ High to low
+                </option>
               </select>
             )}
           </div>
