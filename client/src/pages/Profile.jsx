@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { UserContext } from "../util/UserContext";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useContext(UserContext);
@@ -60,7 +60,12 @@ export default function Profile() {
 
       <div className="mb-4 font-medium text-xl">
         {properties.length === 0 && (
-          <p>You have not added any property 🏠 listings yet.</p>
+          <p>
+            You have not added any property 🏠 listings yet.{" "}
+            <Link to="/addPlace" className="text-primary underline ">
+              Add a new property
+            </Link>
+          </p>
         )}
         {properties.length > 0 && (
           <p>You have {properties.length} property 🏠 listings.</p>

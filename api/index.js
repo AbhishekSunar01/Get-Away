@@ -45,13 +45,11 @@ app.get("/api/properties", async (req, res) => {
   }
 });
 
-// app.use(verifyJWT);
 app.use("/api/property", verifyJWT, propertyRouter);
 app.use("/api/profile", verifyJWT, profileRouter);
 app.use("/api/logout", verifyJWT, logoutRouter);
 app.use("/api/booking", verifyJWT, bookingRouter);
 
-//This is for property details
 app.get("/api/property/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -60,11 +58,11 @@ app.get("/api/property/:id", async (req, res) => {
         id: parseInt(id),
       },
       include: {
-        Image: true, // Include related Image records
+        Image: true,
       },
     });
 
-    res.json(property); // Send the property as a response
+    res.json(property);
   } catch (error) {
     console.error(error);
     res

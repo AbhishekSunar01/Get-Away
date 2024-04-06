@@ -63,7 +63,7 @@ export default function Login() {
         name: response.data.name,
       });
       Cookies.set("token", response.data.token);
-      navigate("/");
+      navigate("/profile");
       window.location.reload();
     } catch (error) {
       setError("An error occurred during login");

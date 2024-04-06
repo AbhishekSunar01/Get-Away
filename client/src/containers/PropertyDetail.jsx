@@ -163,7 +163,7 @@ export default function PropertyDetail() {
   const bookPlace = async () => {
     if (!checkIn || !checkOut) {
       console.error("Check-in and check-out dates are required");
-      toast.error("Check-in and check-out dates are required");
+      toast("Check-in and check-out dates are required");
       return;
     }
 
@@ -230,7 +230,7 @@ export default function PropertyDetail() {
           <p>{property.description}</p>
         </div>
 
-        <div className="w-[45%] shadow-lg bg-background font-semibold rounded-2xl py-5 px-4 flex flex-col gap-4">
+        <div className="w-[45%]  bg-background font-semibold rounded-2xl py-5 px-4 flex flex-col gap-4">
           <h1 className=" text-xl text-center">
             {totalPrice > 0 && <span>Total Price: Rs {totalPrice}</span>}
             {totalPrice < 9 && (
