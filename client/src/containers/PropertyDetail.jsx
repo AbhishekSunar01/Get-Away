@@ -105,6 +105,61 @@ export default function PropertyDetail() {
 
   // ... existing code ...
 
+  // const bookPlace = async () => {
+  //   if (!checkIn || !checkOut) {
+  //     console.error("Check-in and check-out dates are required");
+  //     toast.error("Check-in and check-out dates are required");
+  //     return;
+  //   }
+
+  //   if (!propertyId) {
+  //     console.error("Property ID is not available");
+  //     return;
+  //   }
+
+  //   // Convert checkIn and checkOut to Date objects
+  //   const checkInDate = new Date(checkIn);
+  //   const checkOutDate = new Date(checkOut);
+
+  //   // Check if the check-in date is in the past
+  //   const currentDate = new Date();
+  //   if (checkInDate < currentDate) {
+  //     //  console.error("Check-in date cannot be in the past");
+  //     toast.error("Check-in date cannot be in the past");
+  //     return;
+  //   }
+
+  //   // Calculate the difference in time between checkOut and checkIn in milliseconds
+  //   const diffTime = checkOutDate.getTime() - checkInDate.getTime();
+
+  //   // Convert the time difference to days
+  //   const diffDays = diffTime / (1000 * 60 * 60 * 24);
+  //   console.log("Difference in days: ", diffDays);
+
+  //   // Calculate the total price
+  //   const totalPrice = diffDays * property.price;
+  //   setTotalPrice(totalPrice);
+  //   console.log("Total price: ", totalPrice);
+
+  //   const checkInDateTime = `${checkIn}T00:00:00Z`;
+  //   const checkOutDateTime = `${checkOut}T00:00:00Z`;
+
+  //   try {
+  //     const response = await axios.post(`/booking/add/${propertyId}`, {
+  //       checkIn: checkInDateTime,
+  //       checkOut: checkOutDateTime,
+  //     });
+
+  //     console.log("Total price: ", totalPrice);
+
+  //     console.log(response.data);
+  //     toast.success("Property booked successfully");
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Login to book this property.");
+  //   }
+  // };
+
   const bookPlace = async () => {
     if (!checkIn || !checkOut) {
       console.error("Check-in and check-out dates are required");
@@ -124,8 +179,7 @@ export default function PropertyDetail() {
     // Check if the check-in date is in the past
     const currentDate = new Date();
     if (checkInDate < currentDate) {
-      //  console.error("Check-in date cannot be in the past");
-      toast.error("Check-in date cannot be in the past");
+      toast("Check-in date cannot be in the past");
       return;
     }
 
@@ -156,7 +210,11 @@ export default function PropertyDetail() {
       toast.success("Property booked successfully");
     } catch (error) {
       console.error(error);
-      toast.error("Login to book this property.");
+      let errorMessage = "An error occurred while booking the property.";
+      if (error.response && error.response.data && error.response.data.error) {
+        errorMessage = error.response.data.error;
+      }
+      toast(errorMessage);
     }
   };
 

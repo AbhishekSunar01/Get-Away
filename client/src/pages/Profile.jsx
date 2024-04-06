@@ -72,16 +72,19 @@ export default function Profile() {
           <NavLink
             to={`/updatePlace/${property.id}`}
             key={property.id}
-            className="flex border border-gray-200 rounded-3xl bg-background hover:shadow-lg transition duration-300 ease-in-out"
+            className="flex border border-gray-200 rounded-3xl bg-background hover:shadow-lg transition duration-300 ease-in-out h-[220px]"
           >
             <img
               src={property.Image[0].url}
               alt={property.name}
               className="w-[350px] h-full object-cover rounded-l-xl"
             />
+
             <div className="mt-2 ml-6 py-4">
               <h3 className="text-xl font-semibold">{property.title}</h3>
-              <p className="text-gray-500">{property.description}</p>
+              <p className="text-gray-500 line-clamp-6">
+                {property.description}
+              </p>
             </div>
           </NavLink>
         ))}

@@ -22,7 +22,7 @@ input[type="time"] {
 }
 
 input[type="date"] {
-  @apply bg-gray-100 outline-none font-medium border-2 rounded-xl px-3 py-2 border-white;
+  @apply bg-background outline-none font-medium border-2 rounded-xl px-3 py-2 border-white;
 }
 
 button {
