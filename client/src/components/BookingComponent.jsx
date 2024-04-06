@@ -19,7 +19,9 @@ export default function BookingComponent({ booking }) {
             Check-out: {new Date(booking.checkOut).toLocaleDateString()}
           </p>
         </div>
-        <div className="text-xl font-medium">Total Price:</div>
+        <div className="text-xl font-medium">
+          Total Price: {booking.totalPrice}
+        </div>
       </div>
     </div>
   );

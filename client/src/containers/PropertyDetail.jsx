@@ -31,6 +31,20 @@ export default function PropertyDetail() {
     fetchProperty();
   }, [id]);
 
+  useEffect(() => {
+    if (checkIn && checkOut && property) {
+      const checkInDate = new Date(checkIn);
+      const checkOutDate = new Date(checkOut);
+
+      const diffTime = checkOutDate.getTime() - checkInDate.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Use Math.ceil to round up to the nearest whole number
+
+      const totalPrice = diffDays * property.price;
+      setTotalPrice(totalPrice);
+      console.log(totalPrice);
+    }
+  }, [checkIn, checkOut, property]);
+
   if (!property) {
     return (
       <div className="container text-center mt-20 text-3xl font-bold w-fit flex mx-auto border border-gray-300 py-20 px-12 rounded-xl shadow-lg flex-col text-white">
@@ -41,6 +55,55 @@ export default function PropertyDetail() {
       </div>
     );
   }
+
+  // const bookPlace = async () => {
+  //   if (!checkIn || !checkOut) {
+  //     console.error("Check-in and check-out dates are required");
+  //     toast.error("Check-in and check-out dates are required");
+  //     return;
+  //   }
+
+  //   if (!propertyId) {
+  //     console.error("Property ID is not available");
+  //     return;
+  //   }
+
+  //   // Convert checkIn and checkOut to Date objects
+  //   const checkInDate = new Date(checkIn);
+  //   const checkOutDate = new Date(checkOut);
+
+  //   // Calculate the difference in time between checkOut and checkIn in milliseconds
+  //   const diffTime = checkOutDate.getTime() - checkInDate.getTime();
+
+  //   // Convert the time difference to days
+  //   const diffDays = diffTime / (1000 * 60 * 60 * 24);
+  //   console.log("Difference in days: ", diffDays);
+
+  //   // Calculate the total price
+  //   const totalPrice = diffDays * property.price;
+  //   setTotalPrice(totalPrice);
+  //   console.log("Total price: ", totalPrice);
+
+  //   const checkInDateTime = `${checkIn}T00:00:00Z`;
+  //   const checkOutDateTime = `${checkOut}T00:00:00Z`;
+
+  //   try {
+  //     const response = await axios.post(`/booking/add/${propertyId}`, {
+  //       checkIn: checkInDateTime,
+  //       checkOut: checkOutDateTime,
+  //     });
+
+  //     console.log("Total price: ", totalPrice);
+
+  //     console.log(response.data);
+  //     toast.success("Property booked successfully");
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error("Login to book this property.");
+  //   }
+  // };
+
+  // ... existing code ...
 
   const bookPlace = async () => {
     if (!checkIn || !checkOut) {
@@ -58,14 +121,25 @@ export default function PropertyDetail() {
     const checkInDate = new Date(checkIn);
     const checkOutDate = new Date(checkOut);
 
+    // Check if the check-in date is in the past
+    const currentDate = new Date();
+    if (checkInDate < currentDate) {
+      //  console.error("Check-in date cannot be in the past");
+      toast.error("Check-in date cannot be in the past");
+      return;
+    }
+
     // Calculate the difference in time between checkOut and checkIn in milliseconds
     const diffTime = checkOutDate.getTime() - checkInDate.getTime();
 
     // Convert the time difference to days
     const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    console.log("Difference in days: ", diffDays);
 
     // Calculate the total price
     const totalPrice = diffDays * property.price;
+    setTotalPrice(totalPrice);
+    console.log("Total price: ", totalPrice);
 
     const checkInDateTime = `${checkIn}T00:00:00Z`;
     const checkOutDateTime = `${checkOut}T00:00:00Z`;
@@ -75,6 +149,8 @@ export default function PropertyDetail() {
         checkIn: checkInDateTime,
         checkOut: checkOutDateTime,
       });
+
+      console.log("Total price: ", totalPrice);
 
       console.log(response.data);
       toast.success("Property booked successfully");
@@ -98,7 +174,10 @@ export default function PropertyDetail() {
 
         <div className="w-[45%] shadow-lg bg-background font-semibold rounded-2xl py-5 px-4 flex flex-col gap-4">
           <h1 className=" text-xl text-center">
-            Price: Rs{property.price} per night
+            {totalPrice > 0 && <span>Total Price: Rs {totalPrice}</span>}
+            {totalPrice < 9 && (
+              <span>Price: Rs {property.price} per night</span>
+            )}
           </h1>
 
           <div className="flex flex-col gap-2">

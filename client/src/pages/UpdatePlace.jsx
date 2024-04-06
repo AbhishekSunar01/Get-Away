@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { AddPlaceInputText } from "../components/formComponents";
 import toast from "react-hot-toast";
 
 export default function UpdatePlace() {
@@ -145,18 +144,21 @@ export default function UpdatePlace() {
             />
           </label>
         </div>
-        <div className="w-3/4 mx-auto">
-          <button type="submit" className="primary bg-accent">
-            Update Property
-          </button>
+
+        <div className="flex w-2/5 gap-5">
+          <div className="w-3/4 mx-auto">
+            <button type="submit" className="primary bg-accent">
+              Update Property
+            </button>
+          </div>
+
+          <div className="w-3/4 mx-auto">
+            <button className="primary bg-third" onClick={deleteProperty}>
+              Delete Property
+            </button>
+          </div>
         </div>
       </form>
-
-      <div className="w-3/4 mx-auto">
-        <button className="primary bg-third" onClick={deleteProperty}>
-          Delete Property
-        </button>
-      </div>
     </div>
   );
 }
