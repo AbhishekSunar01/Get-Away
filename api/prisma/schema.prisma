@@ -53,6 +53,7 @@ model Bookings {
     userId     Int
     checkIn    DateTime
     checkOut   DateTime
+    totalPrice Int
     property   Property @relation(fields: [propertyId], references: [id])
     user       User     @relation(fields: [userId], references: [id])
 }

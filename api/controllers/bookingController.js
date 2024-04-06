@@ -12,12 +12,27 @@ const addBooking = async (req, res) => {
   }
 
   try {
+    // Fetch the property data
+    const property = await prisma.property.findUnique({
+      where: { id: parseInt(propertyId) },
+    });
+
+    // Calculate the number of days between checkIn and checkOut
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    const diffTime = Math.abs(checkOutDate - checkInDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    // Calculate the total price
+    const totalPrice = diffDays * property.price;
+
     const booking = await prisma.bookings.create({
       data: {
         checkIn,
         checkOut,
         propertyId: parseInt(propertyId),
         userId,
+        totalPrice, // Include the total price in the booking data
       },
     });
 
