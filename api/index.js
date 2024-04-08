@@ -25,6 +25,9 @@ const propertyRouter = require("./routes/propertyRoute");
 const logoutRouter = require("./routes/logoutRoute");
 const bookingRouter = require("./routes/bookingRoute");
 const { verifyJWT } = require("./middleware/verifyJWT");
+const adminUsersRouter = require("./routes/admin/usersRoute");
+const adminBookingsRouter = require("./routes/admin/bookingsRoute");
+const adminPropertyRouter = require("./routes/admin/propertyRoute");
 
 app.use("/api/user", userRouter);
 
@@ -70,6 +73,10 @@ app.get("/api/property/:id", async (req, res) => {
       .json({ error: "An error occurred while fetching the property." });
   }
 });
+
+app.use("/api/admin", adminUsersRouter);
+app.use("/api/admin", adminPropertyRouter);
+app.use("/api/admin", adminBookingsRouter);
 
 app.listen(port, (error) => {
   if (error) throw error;
