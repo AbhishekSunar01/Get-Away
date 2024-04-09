@@ -225,8 +225,8 @@ export default function PropertyDetail() {
       <ImageDetails property={property} />
 
       <div className="flex w-full justify-between h-[330px]">
-        <div className="w-[52%] overflow-y-auto scrollbar-hide py-5 px-4">
-          <h1 className="font-semibold text-2xl mb-2">Description</h1>
+        <div className="w-[52%] overflow-y-auto scrollbar-hide py-5 px-4 text-justify">
+          <h1 className="font-semibold text-2xl mb-2 ">Description</h1>
           <p>{property.description}</p>
         </div>
 
