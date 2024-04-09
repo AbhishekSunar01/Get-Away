@@ -10,7 +10,7 @@ const port = process.env.PORT;
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
   })
 );
@@ -28,6 +28,7 @@ const { verifyJWT } = require("./middleware/verifyJWT");
 const adminUsersRouter = require("./routes/admin/usersRoute");
 const adminBookingsRouter = require("./routes/admin/bookingsRoute");
 const adminPropertyRouter = require("./routes/admin/propertyRoute");
+const adminDashboardRouter = require("./routes/admin/dashboardRoute");
 
 app.use("/api/user", userRouter);
 
@@ -77,6 +78,7 @@ app.get("/api/property/:id", async (req, res) => {
 app.use("/api/admin", adminUsersRouter);
 app.use("/api/admin", adminPropertyRouter);
 app.use("/api/admin", adminBookingsRouter);
+app.use("/api/admin", adminDashboardRouter);
 
 app.listen(port, (error) => {
   if (error) throw error;

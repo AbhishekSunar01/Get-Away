@@ -1,11 +1,46 @@
 const { PrismaClient } = require("@prisma/client");
+
 const prisma = new PrismaClient();
 require("dotenv").config();
 
 const listOfBookings = async (req, res) => {
   try {
-    const bookings = await prisma.bookings.findMany();
-    res.json(bookings);
+    const bookings = await prisma.Bookings.findMany({
+      include: {
+        property: true, // Include the Property relation
+      },
+    });
+
+    // Group bookings by property
+    const groupedBookings = bookings.reduce((acc, booking) => {
+      const key = booking.property.title;
+      if (!acc[key]) {
+        acc[key] = {
+          bookingCount: 0,
+          totalAmount: 0,
+          dates: [],
+        };
+      }
+      acc[key].bookingCount += 1;
+      acc[key].totalAmount += booking.totalPrice;
+      acc[key].dates.push({
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+      });
+      return acc;
+    }, {});
+
+    // Convert to array of { propertyName, bookingCount, totalAmount, dates }
+    const bookingsWithDetails = Object.entries(groupedBookings).map(
+      ([propertyName, { bookingCount, totalAmount, dates }]) => ({
+        propertyName,
+        bookingCount,
+        totalAmount,
+        dates,
+      })
+    );
+
+    res.json(bookingsWithDetails);
   } catch (error) {
     console.error(error);
     res

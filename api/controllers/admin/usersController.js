@@ -4,8 +4,19 @@ require("dotenv").config();
 
 const listOfUsers = async (req, res) => {
   try {
-    const users = await prisma.user.findMany();
-    res.json(users);
+    const users = await prisma.user.findMany({
+      include: {
+        properties: true, // Include the properties relation
+      },
+    });
+
+    // Map over the users to add a propertyCount field
+    const usersWithPropertyCount = users.map((user) => ({
+      ...user,
+      propertyCount: user.properties.length, // Count the number of properties
+    }));
+
+    res.json(usersWithPropertyCount);
   } catch (error) {
     console.error(error);
     res

@@ -7,9 +7,17 @@ const listOfProperties = async (req, res) => {
     const properties = await prisma.property.findMany({
       include: {
         Image: true,
+        User: true, // Include the User relation
       },
     });
-    res.json(properties);
+
+    // Map over the properties to add a userName field
+    const propertiesWithUserName = properties.map((property) => ({
+      ...property,
+      userName: property.User.name, // Add the user's name
+    }));
+
+    res.json(propertiesWithUserName);
   } catch (error) {
     console.error(error);
     res
