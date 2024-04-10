@@ -3,15 +3,23 @@ import logo from "/icons/getaway-logo.png";
 import { useContext } from "react";
 import { UserContext } from "../util/UserContext";
 import { SearchContext } from "../util/SearchContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const { user } = useContext(UserContext);
   const { setIsSearchVisible, isSearchVisible } = useContext(SearchContext);
+  const navigate = useNavigate();
 
   const toggleSearch = () => {
-    if (isSearchVisible) {
-      setIsSearchVisible(false);
+    console.log(window.location.pathname);
+    if (window.location.pathname === "/") {
+      if (isSearchVisible) {
+        setIsSearchVisible(false);
+      } else {
+        setIsSearchVisible(true);
+      }
     } else {
+      navigate("/");
       setIsSearchVisible(true);
     }
   };
