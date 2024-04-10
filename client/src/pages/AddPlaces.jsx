@@ -53,6 +53,16 @@ export default function AddPlaces() {
       const response = await axios.post("property/add", formData);
       console.log(response.data);
       toast.success("Property added successfully");
+
+      setTitle("");
+      setAddress("");
+      setDescription("");
+      setCheckIn("");
+      setCheckOut("");
+      setExtraInfo("");
+      setPrice("");
+      setImages([]);
+      setSelectedImages([]);
     } catch (error) {
       console.error(error);
       toast.error("An error occurred while adding property");

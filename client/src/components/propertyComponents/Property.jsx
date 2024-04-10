@@ -1,10 +1,17 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../util/UserContext";
 
 export default function Property({ property }) {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   const handleClick = () => {
-    navigate(`/property/${property.id}`);
+    if (user && user.id === property.userId) {
+      navigate(`/updatePlace/${property.id}`);
+    } else {
+      navigate(`/property/${property.id}`);
+    }
   };
 
   return (
