@@ -40,8 +40,6 @@ export default function Index() {
   const [searchTerm, setSearchTerm] = useState(""); // search term
   const [sortDirection, setSortDirection] = useState("asc"); // default sort
 
-  // ...
-
   {
     isSearchVisible && (
       <div className="bg-gray-100 p-4">
