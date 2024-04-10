@@ -25,10 +25,13 @@ const propertyRouter = require("./routes/propertyRoute");
 const logoutRouter = require("./routes/logoutRoute");
 const bookingRouter = require("./routes/bookingRoute");
 const { verifyJWT } = require("./middleware/verifyJWT");
+const { verifyAdminToken } = require("./middleware/verifyAdminToken");
 const adminUsersRouter = require("./routes/admin/usersRoute");
 const adminBookingsRouter = require("./routes/admin/bookingsRoute");
 const adminPropertyRouter = require("./routes/admin/propertyRoute");
 const adminDashboardRouter = require("./routes/admin/dashboardRoute");
+const adminLoginRouter = require("./routes/admin/loginRoute");
+const adminLogoutRouter = require("./routes/admin/logoutRoute");
 
 app.use("/api/user", userRouter);
 
@@ -75,10 +78,12 @@ app.get("/api/property/:id", async (req, res) => {
   }
 });
 
-app.use("/api/admin", adminUsersRouter);
-app.use("/api/admin", adminPropertyRouter);
-app.use("/api/admin", adminBookingsRouter);
-app.use("/api/admin", adminDashboardRouter);
+app.use("/api/admin", adminLoginRouter);
+app.use("/api/admin", verifyAdminToken, adminDashboardRouter);
+app.use("/api/admin", verifyAdminToken, adminUsersRouter);
+app.use("/api/admin", verifyAdminToken, adminPropertyRouter);
+app.use("/api/admin", verifyAdminToken, adminBookingsRouter);
+app.use("/api/admin", verifyAdminToken, adminLogoutRouter);
 
 app.listen(port, (error) => {
   if (error) throw error;
