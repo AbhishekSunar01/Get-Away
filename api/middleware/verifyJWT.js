@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const verifyJWT = async (req, res, next) => {
   const token = req.cookies.jwt;
+  console.log(token);
 
   if (token) {
     try {

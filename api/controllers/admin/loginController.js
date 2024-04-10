@@ -28,7 +28,7 @@ const login = async (req, res) => {
         });
 
         res
-          .cookie("token", token, {
+          .cookie("adminJwt", token, {
             httpOnly: true,
           })
           .json({ message: "Logged in successfully.", token: token });

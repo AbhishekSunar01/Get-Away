@@ -31,7 +31,6 @@ export default function Bookings() {
         console.log(error);
       });
   }, [user]);
-
   if (!user) {
     return (
       <div className="container text-center mt-20 text-3xl font-bold w-fit flex mx-auto border border-gray-300 py-20 px-12 rounded-xl shadow-lg flex-col text-white">

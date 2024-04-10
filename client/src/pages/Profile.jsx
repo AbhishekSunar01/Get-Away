@@ -72,7 +72,7 @@ export default function Profile() {
         )}
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-6">
         {properties.map((property) => (
           <NavLink
             to={`/updatePlace/${property.id}`}
