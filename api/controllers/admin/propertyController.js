@@ -60,4 +60,38 @@ const deleteProperty = async (req, res) => {
   }
 };
 
-module.exports = { listOfProperties, deleteProperty };
+const topPopularProperties = async (req, res) => {
+  try {
+    const properties = await prisma.property.findMany({
+      include: {
+        Image: true,
+        User: true,
+        Bookings: true, // Include the Bookings relation
+      },
+    });
+
+    // Sort the properties based on the number of bookings in descending order
+    const sortedProperties = properties.sort(
+      (a, b) => b.Bookings.length - a.Bookings.length
+    );
+
+    // Get the top 6 properties
+    const topProperties = sortedProperties.slice(0, 6);
+
+    // Map over the top properties to add a userName field and only include the title and number of bookings
+    const topPropertiesWithUserName = topProperties.map((property) => ({
+      title: property.title,
+      numberOfBookings: property.Bookings.length,
+      userName: property.User.name,
+    }));
+
+    res.json(topPropertiesWithUserName);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the top properties." });
+  }
+};
+
+module.exports = { listOfProperties, deleteProperty, topPopularProperties };
