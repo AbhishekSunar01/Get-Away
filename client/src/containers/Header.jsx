@@ -2,9 +2,20 @@ import { NavLink } from "react-router-dom";
 import logo from "/icons/getaway-logo.png";
 import { useContext } from "react";
 import { UserContext } from "../util/UserContext";
+import { SearchContext } from "../util/SearchContext";
 
 export default function Header() {
   const { user } = useContext(UserContext);
+  const { setIsSearchVisible, isSearchVisible } = useContext(SearchContext);
+
+  const toggleSearch = () => {
+    if (isSearchVisible) {
+      setIsSearchVisible(false);
+    } else {
+      setIsSearchVisible(true);
+    }
+  };
+
   return (
     <div className="md:px-48 px-[20px] border-b shadow-sm py-6 flex justify-between items-center">
       <NavLink to="/" className="flex items-center gap-1  ">
@@ -13,12 +24,18 @@ export default function Header() {
       </NavLink>
 
       <div className="flex font-semibold border gap-3 text-sm pl-5 items-center rounded-full border-gray-300 py-2 px-2 shadow-sm shadow-gray-300 trasition duration-300 ease-in-out hover:shadow-lg">
-        <div>Bookings</div>
+        <NavLink to="/bookings">Bookings</NavLink>
         <div className="border-l h-5 border-gray-300"></div>
         <NavLink to="/addPlace">Add Place</NavLink>
         <div className="border-l h-5 border-gray-300"></div>
-        <div>Search</div>
-        <button className="bg-primary text-white p-1 rounded-full">
+
+        <div onClick={toggleSearch} className="cursor-pointer">
+          Search
+        </div>
+        <button
+          onClick={toggleSearch}
+          className="bg-primary text-white p-1 rounded-full"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

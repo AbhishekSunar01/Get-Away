@@ -17,4 +17,5 @@ const logout = async (req, res) => {
     res.status(400).json({ error: "Invalid refresh token" });
   }
 };
+
 module.exports = { logout };

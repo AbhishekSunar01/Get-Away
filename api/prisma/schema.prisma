@@ -14,6 +14,7 @@ model User {
     password     String
     refreshToken RefreshToken[]
     properties   Property[]
+    bookings     Bookings[]
 }
 
 model RefreshToken {
@@ -35,6 +36,7 @@ model Property {
     Image       Image[]
     User        User?   @relation(fields: [userId], references: [id])
     userId      Int?
+    Bookings    Bookings[]
 }
 
 model Image {
@@ -42,4 +44,23 @@ model Image {
     url        String
     property   Property @relation(fields: [propertyId], references: [id])
     propertyId Int
+}
+
+
+model Bookings {
+    id         Int      @id @default(autoincrement())
+    propertyId Int
+    userId     Int
+    checkIn    DateTime
+    checkOut   DateTime
+    totalPrice Int
+    property   Property @relation(fields: [propertyId], references: [id])
+    user       User     @relation(fields: [userId], references: [id])
+}
+
+model Admin {
+    id       Int    @id @default(autoincrement())
+    email    String @unique
+    password String
+    token   String?
 }

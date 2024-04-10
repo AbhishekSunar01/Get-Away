@@ -1,4 +1,10 @@
-export default function AddPlaceInputArea({ title, desc, value, onchange }) {
+export default function AddPlaceInputArea({
+  title,
+  desc,
+  value,
+  onchange,
+  required,
+}) {
   return (
     <div className="inputContainer">
       <div>
@@ -10,6 +16,7 @@ export default function AddPlaceInputArea({ title, desc, value, onchange }) {
         type="text"
         value={value}
         onChange={onchange}
+        required={required}
       />
     </div>
   );
