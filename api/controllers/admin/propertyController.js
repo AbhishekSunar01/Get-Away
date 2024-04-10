@@ -29,17 +29,34 @@ const listOfProperties = async (req, res) => {
 const deleteProperty = async (req, res) => {
   const { id } = req.params;
   try {
+    // Delete images related to the property
+    await prisma.image.deleteMany({
+      where: {
+        propertyId: parseInt(id),
+      },
+    });
+
+    // Delete bookings related to the property
+    await prisma.bookings.deleteMany({
+      where: {
+        propertyId: parseInt(id),
+      },
+    });
+
+    // Delete property
     await prisma.property.delete({
       where: {
         id: parseInt(id),
       },
     });
-    res.json({ message: "Property deleted successfully" });
+
+    res.json({ message: "Property and associated data deleted successfully" });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while deleting the property." });
+    res.status(500).json({
+      error:
+        "An error occurred while deleting the property and associated data.",
+    });
   }
 };
 
