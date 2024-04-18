@@ -1,14 +1,61 @@
 import { NavLink } from "react-router-dom";
 import logo from "/icons/getaway-logo.png";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../util/UserContext";
 import { SearchContext } from "../util/SearchContext";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { TbLogout, TbHistory } from "react-icons/tb";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function Header() {
   const { user } = useContext(UserContext);
   const { setIsSearchVisible, isSearchVisible } = useContext(SearchContext);
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [logoutPopup, setLogoutPopup] = useState(false);
+
+  const [showUser, setShowUser] = useState(false);
+
+  const toggleDropdown = () => {
+    if (showDropdown) {
+      setShowDropdown(false);
+    } else {
+      setShowDropdown(true);
+    }
+  };
+
+  const toggleLogoutPopup = () => {
+    if (logoutPopup) {
+      setShowDropdown(false);
+      setLogoutPopup(false);
+    } else {
+      setShowDropdown(false);
+      setLogoutPopup(true);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const response = await axios.post(
+        "/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        Cookies.remove("token");
+        window.location.href = "/login";
+      } else {
+        console.error("Logout failed:", response.data);
+      }
+    } catch (error) {
+      console.error("Network error during logout:", error);
+    }
+  };
 
   const toggleSearch = () => {
     console.log(window.location.pathname);
@@ -62,20 +109,22 @@ export default function Header() {
       </div>
 
       <div className="flex border gap-2 items-center rounded-full border-gray-300 py-2 px-4 shadow-sm shadow-gray-300 trasition duration-300 ease-in-out hover:shadow-lg">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
-          stroke="currentColor"
-          className="w-6 h-6 text-gray-600"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
+        <div onClick={toggleDropdown}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-6 h-6 text-gray-600"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+        </div>
         <NavLink to="/login" className="flex items-center gap-2">
           <div className="bg-gray-600 text-white rounded-full border border-gray-600 overflow-hidden">
             <svg
@@ -94,6 +143,54 @@ export default function Header() {
           {user && <div>{user.name}</div>}
         </NavLink>
       </div>
+
+      {showDropdown && user && (
+        <div className="absolute top-16 left-[74%] bg-white shadow-md rounded-md border border-gray-300">
+          <NavLink
+            to="/addPlace"
+            className="py-2 px-4 hover:bg-gray-100 flex gap-2 items-center hover:text-primary"
+          >
+            <TbHistory />
+            History
+          </NavLink>
+          <span
+            onClick={toggleLogoutPopup}
+            className="py-2 px-4 hover:bg-gray-100 cursor-pointer flex gap-2 items-center hover:text-primary"
+          >
+            <TbLogout /> Logout
+          </span>
+        </div>
+      )}
+
+      {
+        <div
+          className={`${
+            logoutPopup ? "block" : "hidden"
+          } absolute bg-black bg-opacity-50 top-0 left-0 w-full h-full z-50 flex justify-center items-center`}
+        >
+          <div className="bg-white rounded-lg border">
+            <div className="p-8 gap-4 items-center flex flex-col">
+              <span className="text-xl font-semibold">
+                Are you sure you want to logout?
+              </span>
+              <div className="flex w-full gap-2 justify-end">
+                <button
+                  onClick={logout}
+                  className="bg-primary  text-white py-1 px-2 rounded-lg w-[25%] hover:shadow-lg hover:shadow-primary/50"
+                >
+                  Logout
+                </button>
+                <button
+                  onClick={toggleLogoutPopup}
+                  className="bg-white border border-primary text-primary py-1 px-2 rounded-lg w-[25%] hover:shadow-lg hover:shadow-gray-400"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   );
 }

@@ -8,27 +8,6 @@ export default function Profile() {
   const { user } = useContext(UserContext);
   const [properties, setProperties] = useState([]);
 
-  const logout = async () => {
-    try {
-      const response = await axios.post(
-        "/logout",
-        {},
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.status === 200) {
-        Cookies.remove("token");
-        window.location.href = "/login";
-      } else {
-        console.error("Logout failed:", response.data);
-      }
-    } catch (error) {
-      console.error("Network error during logout:", error);
-    }
-  };
-
   const fetchProperties = async () => {
     try {
       const response = await axios.get("property/myproperties", {
@@ -94,10 +73,6 @@ export default function Profile() {
           </NavLink>
         ))}
       </div>
-
-      <button className="text-white py-2 px-4 rounded-md mt-6" onClick={logout}>
-        Logout
-      </button>
     </div>
   );
 }
