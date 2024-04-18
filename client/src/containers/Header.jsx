@@ -15,6 +15,7 @@ export default function Header() {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [logoutPopup, setLogoutPopup] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const [showUser, setShowUser] = useState(false);
 
@@ -71,17 +72,49 @@ export default function Header() {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      setIsScrolled(isScrolled);
+    };
+
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="md:px-48 px-[20px] border-b shadow-sm py-6 flex justify-between items-center">
+    <div
+      className={`md:px-48 px-[20px] border-b shadow-sm py-6 flex justify-between items-center sticky top-0 bg-white z-50 ${
+        isScrolled ? "shadow-xl" : ""
+      }`}
+    >
       <NavLink to="/" className="flex items-center gap-1  ">
         <img src={logo} className="w-8 mr-2" alt="" />
         <span className="font-bold text-2xl  text-primary">Getaway</span>
       </NavLink>
 
       <div className="flex font-semibold border gap-3 text-sm pl-5 items-center rounded-full border-gray-300 py-2 px-2 shadow-sm shadow-gray-300 trasition duration-300 ease-in-out hover:shadow-lg">
-        <NavLink to="/bookings">Bookings</NavLink>
+        <NavLink
+          exact="true"
+          to="/bookings"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-primary" : ""
+          }
+        >
+          Bookings
+        </NavLink>
         <div className="border-l h-5 border-gray-300"></div>
-        <NavLink to="/addPlace">Add Place</NavLink>
+        <NavLink
+          exact="true"
+          to="/addPlace"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "text-primary" : ""
+          }
+        >
+          Add Place
+        </NavLink>
         <div className="border-l h-5 border-gray-300"></div>
 
         <div onClick={toggleSearch} className="cursor-pointer">
@@ -163,13 +196,13 @@ export default function Header() {
         </div>
       )}
 
-      {
+      {logoutPopup && (
         <div
           className={`${
             logoutPopup ? "block" : "hidden"
-          } absolute bg-black bg-opacity-50 top-0 left-0 w-full h-full z-50 flex justify-center items-center`}
+          } fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50`}
         >
-          <div className="bg-white rounded-lg border">
+          <div className="bg-white rounded-lg border z-60">
             <div className="p-8 gap-4 items-center flex flex-col">
               <span className="text-xl font-semibold">
                 Are you sure you want to logout?
@@ -191,7 +224,7 @@ export default function Header() {
             </div>
           </div>
         </div>
-      }
+      )}
     </div>
   );
 }

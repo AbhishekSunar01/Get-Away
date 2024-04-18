@@ -1,7 +1,7 @@
 export default function BookingComponent({ booking }) {
   return (
     <div
-      className="w-[90%] flex gap-4 border bg-background h-[250px] rounded-3xl overflow-hidden shadow-md hover:shadow-xl ease-linear transition-all duration-300 cursor-pointer "
+      className="w-full flex gap-4 border bg-background h-[250px] rounded-3xl overflow-hidden shadow-md hover:shadow-xl ease-linear transition-all duration-300 cursor-pointer "
       key={booking.id}
     >
       <div className="w-1/4 h-full">
@@ -51,7 +51,7 @@ export default function BookingComponent({ booking }) {
             Check-out: {new Date(booking.checkOut).toLocaleDateString()}
           </p>
         </div>
-        <div className="text-xl font-medium flex gap-2 items-center font-semibold">
+        <div className="text-xlflex gap-2 items-center font-semibold">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

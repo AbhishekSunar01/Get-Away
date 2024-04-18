@@ -16,7 +16,6 @@ export default function Profile() {
 
       if (response.status === 200) {
         setProperties(response.data);
-        console.log("Properties:", response.data);
       } else {
         console.error("Failed to fetch properties:", response.data);
       }
