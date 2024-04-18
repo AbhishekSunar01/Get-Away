@@ -147,7 +147,8 @@ export default function Header() {
       {showDropdown && user && (
         <div className="absolute top-16 left-[74%] bg-white shadow-md rounded-md border border-gray-300">
           <NavLink
-            to="/addPlace"
+            to="/history"
+            onClick={toggleDropdown}
             className="py-2 px-4 hover:bg-gray-100 flex gap-2 items-center hover:text-primary"
           >
             <TbHistory />
@@ -182,7 +183,7 @@ export default function Header() {
                 </button>
                 <button
                   onClick={toggleLogoutPopup}
-                  className="bg-white border border-primary text-primary py-1 px-2 rounded-lg w-[25%] hover:shadow-lg hover:shadow-gray-400"
+                  className="bg-white border border-primary text-primary py-1 px-2 rounded-lg w-[25%] hover:shadow-lg hover:shadow-gray-400 "
                 >
                   Cancel
                 </button>

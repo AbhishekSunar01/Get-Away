@@ -5,7 +5,7 @@ import { UserContext } from "../util/UserContext";
 import { Link } from "react-router-dom";
 import BookingComponent from "../components/BookingComponent";
 
-export default function Bookings() {
+export default function History() {
   const [bookings, setBookings] = useState([]);
 
   const { user } = useContext(UserContext);
@@ -25,12 +25,12 @@ export default function Bookings() {
         );
       })
       .then((bookingsWithProperty) => {
-        const futureBookings = bookingsWithProperty.filter((booking) => {
-          const checkInDate = new Date(booking.checkIn);
+        const pastBookings = bookingsWithProperty.filter((booking) => {
+          const checkOutDate = new Date(booking.checkOut);
           const today = new Date();
-          return checkInDate >= today;
+          return checkOutDate < today;
         });
-        setBookings(futureBookings);
+        setBookings(pastBookings);
       })
       .catch((error) => {
         console.log(error);
@@ -51,17 +51,14 @@ export default function Bookings() {
   if (bookings.length === 0) {
     return (
       <div className="container text-center mt-20 text-3xl font-bold w-fit flex mx-auto border border-gray-300 py-20 px-12 rounded-xl shadow-lg flex-col text-white">
-        <div className="">You have no bookings</div>
-        <Link to="/" className="text-lg text-accent underline">
-          Book a property
-        </Link>
+        <div className="">You have no history available</div>
       </div>
     );
   }
 
   return (
     <div>
-      <h1 className="mt-6 font-semibold text-3xl">Bookings</h1>
+      <h1 className="mt-6 font-semibold text-3xl">Booking History</h1>
       <div className="mt-4 flex flex-col gap-8">
         {bookings.map((booking) => (
           <BookingComponent booking={booking} key={booking.id} />

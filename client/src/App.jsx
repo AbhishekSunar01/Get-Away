@@ -13,6 +13,7 @@ import ProfileLayout from "./layout/ProfileLayout";
 import UpdatePlace from "./pages/UpdatePlace";
 import { useState } from "react";
 import { SearchContextProvider } from "./util/SearchContext";
+import History from "./pages/History";
 
 axios.defaults.baseURL = "http://localhost:4000/api/";
 axios.defaults.withCredentials = true;
@@ -31,6 +32,7 @@ export default function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/property/:id" element={<PropertyDetail />} />
             <Route path="/bookings" element={<Bookings />} />
+            <Route path="/history" element={<History />} />
           </Route>
         </Routes>
       </SearchContextProvider>
