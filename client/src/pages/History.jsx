@@ -7,10 +7,12 @@ import BookingComponent from "../components/BookingComponent";
 
 export default function History() {
   const [bookings, setBookings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useContext(UserContext);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get("booking")
       .then((response) => {
@@ -34,8 +36,15 @@ export default function History() {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [user]);
+
+  if (isLoading) {
+    return <div className="">Loading...</div>;
+  }
 
   if (!user) {
     return (

@@ -7,10 +7,12 @@ import BookingComponent from "../components/BookingComponent";
 
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useContext(UserContext);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get("booking")
       .then((response) => {
@@ -34,8 +36,15 @@ export default function Bookings() {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [user]);
+
+  if (isLoading) {
+    return <div className="">Loading...</div>;
+  }
 
   if (!user) {
     return (
@@ -60,9 +69,9 @@ export default function Bookings() {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <h1 className="mt-6 font-semibold text-3xl">Bookings</h1>
-      <div className="mt-4 flex flex-col gap-8">
+      <div className="mt-4 flex flex-col gap-10">
         {bookings.map((booking) => (
           <BookingComponent booking={booking} key={booking.id} />
         ))}

@@ -1,7 +1,7 @@
 export default function BookingComponent({ booking }) {
   return (
     <div
-      className="w-full flex gap-4 border bg-background h-[250px] rounded-3xl overflow-hidden hover:text-primary ease-linear transition-all duration-300 cursor-pointer "
+      className="w-[90%] flex gap-4 border bg-background h-[250px] rounded-3xl overflow-hidden shadow-md hover:shadow-xl ease-linear transition-all duration-300 cursor-pointer "
       key={booking.id}
     >
       <div className="w-1/4 h-full">
