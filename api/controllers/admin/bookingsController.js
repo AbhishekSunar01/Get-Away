@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const listOfBookings = async (req, res) => {
   try {
-    const bookings = await prisma.Bookings.findMany({
+    const bookings = await prisma.bookings.findMany({
       include: {
         property: true, // Include the Property relation
       },
@@ -52,7 +52,7 @@ const listOfBookings = async (req, res) => {
 const deleteBooking = async (req, res) => {
   const { id } = req.params;
   try {
-    await prisma.booking.delete({
+    await prisma.bookings.delete({
       where: {
         id: parseInt(id),
       },

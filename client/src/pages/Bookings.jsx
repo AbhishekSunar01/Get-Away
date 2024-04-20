@@ -8,8 +8,50 @@ import BookingComponent from "../components/BookingComponent";
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [popup, setPopup] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const { user } = useContext(UserContext);
+
+  const handleDelete = (bookingId) => {
+    axios
+      .delete(`booking/delete`, { data: { bookingId: bookingId } })
+      .then(() => {
+        toast.success("Booking deleted");
+        setRefresh((prev) => !prev); // Toggle refresh state to trigger re-fetching of bookings
+      })
+      .catch((error) => {
+        toast.error("Failed to delete booking");
+        console.error(error);
+      });
+  };
+
+  const initiatePayment = async (
+    purchase_order_id,
+    purchase_order_name,
+    amount
+  ) => {
+    try {
+      const response = await axios.post("/khalti", {
+        purchase_order_id,
+        purchase_order_name,
+        amount,
+      });
+      console.log(response.data);
+      console.log(response.data.data.payment_url);
+      window.location.href = response.data.data.payment_url;
+    } catch (error) {
+      console.error("Error initiating payment", error);
+    }
+  };
+
+  const handlePopup = () => {
+    if (popup) {
+      setPopup(false);
+    } else {
+      setPopup(true);
+    }
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -40,7 +82,7 @@ export default function Bookings() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [user]);
+  }, [user, refresh]);
 
   if (isLoading) {
     return <div className="">Loading...</div>;
@@ -73,7 +115,13 @@ export default function Bookings() {
       <h1 className="mt-6 font-semibold text-3xl">Bookings</h1>
       <div className="mt-4 flex flex-col gap-10">
         {bookings.map((booking) => (
-          <BookingComponent booking={booking} key={booking.id} />
+          <BookingComponent
+            handlePopup={handlePopup}
+            handleDelete={handleDelete}
+            initiatePayment={initiatePayment}
+            booking={booking}
+            key={booking.id}
+          />
         ))}
       </div>
     </div>

@@ -9,11 +9,10 @@ import Profile from "./pages/Profile";
 import { UserContextProvider } from "./util/UserContext";
 import PropertyDetail from "./containers/PropertyDetail";
 import Bookings from "./pages/Bookings";
-import ProfileLayout from "./layout/ProfileLayout";
 import UpdatePlace from "./pages/UpdatePlace";
-import { useState } from "react";
 import { SearchContextProvider } from "./util/SearchContext";
 import History from "./pages/History";
+import Payment from "./pages/Payment";
 
 axios.defaults.baseURL = "http://localhost:4000/api/";
 axios.defaults.withCredentials = true;
@@ -33,6 +32,7 @@ export default function App() {
             <Route path="/property/:id" element={<PropertyDetail />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/history" element={<History />} />
+            <Route path="/payment" element={<Payment />} />
           </Route>
         </Routes>
       </SearchContextProvider>
