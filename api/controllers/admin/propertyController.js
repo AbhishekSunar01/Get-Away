@@ -28,26 +28,33 @@ const listOfProperties = async (req, res) => {
 
 const deleteProperty = async (req, res) => {
   const { id } = req.params;
+  const propertyId = parseInt(id, 10); // Convert id to integer
+
   try {
     // Delete images related to the property
     await prisma.image.deleteMany({
-      where: {
-        propertyId: parseInt(id),
-      },
+      where: { propertyId },
     });
 
-    // Delete bookings related to the property
-    await prisma.bookings.deleteMany({
-      where: {
-        propertyId: parseInt(id),
-      },
+    // Delete bookings and their associated payments related to the property
+    const bookings = await prisma.bookings.findMany({
+      where: { propertyId },
+      select: { id: true },
     });
+
+    for (let booking of bookings) {
+      await prisma.payment.deleteMany({
+        where: { bookingId: booking.id },
+      });
+
+      await prisma.bookings.delete({
+        where: { id: booking.id },
+      });
+    }
 
     // Delete property
     await prisma.property.delete({
-      where: {
-        id: parseInt(id),
-      },
+      where: { id: propertyId },
     });
 
     res.json({ message: "Property and associated data deleted successfully" });

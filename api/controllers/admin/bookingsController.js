@@ -8,6 +8,7 @@ const listOfBookings = async (req, res) => {
     const bookings = await prisma.bookings.findMany({
       include: {
         property: true, // Include the Property relation
+        Payment: true, // Include the Payment relation
       },
     });
 
@@ -19,6 +20,7 @@ const listOfBookings = async (req, res) => {
           bookingCount: 0,
           totalAmount: 0,
           dates: [],
+          payments: [],
         };
       }
       acc[key].bookingCount += 1;
@@ -27,16 +29,18 @@ const listOfBookings = async (req, res) => {
         checkIn: booking.checkIn,
         checkOut: booking.checkOut,
       });
+      acc[key].payments.push(...booking.Payment); // Add the payments
       return acc;
     }, {});
 
     // Convert to array of { propertyName, bookingCount, totalAmount, dates }
     const bookingsWithDetails = Object.entries(groupedBookings).map(
-      ([propertyName, { bookingCount, totalAmount, dates }]) => ({
+      ([propertyName, { bookingCount, totalAmount, dates, payments }]) => ({
         propertyName,
         bookingCount,
         totalAmount,
         dates,
+        payments,
       })
     );
 
@@ -51,12 +55,14 @@ const listOfBookings = async (req, res) => {
 
 const deleteBooking = async (req, res) => {
   const { id } = req.params;
+  const bookingId = parseInt(id, 10); // Convert id to integer
+
   try {
     await prisma.bookings.delete({
-      where: {
-        id: parseInt(id),
-      },
+      where: { id: bookingId },
+      include: { Payment: true },
     });
+
     res.json({ message: "Booking deleted successfully" });
   } catch (error) {
     console.error(error);

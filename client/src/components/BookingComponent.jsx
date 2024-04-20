@@ -40,6 +40,8 @@ export default function BookingComponent({
     }
   };
 
+  console.log(booking.Payment[0].status);
+
   return (
     <div
       onClick={handlePopup}
@@ -111,15 +113,21 @@ export default function BookingComponent({
             </svg>
           </span>
           Total Price: {booking.totalPrice}
-          {booking.Payment[0] && (
+          {/* {booking.Payment.length > 0 && (
             <span
               className={`${
-                booking.Payment[0].status ? "text-third" : "text-accent"
+                booking.Payment[booking.Payment.length - 1].status ===
+                "Completed"
+                  ? "text-accent"
+                  : "text-third"
               }`}
             >
-              {booking.Payment[0].status === "pending" ? "Pending" : "Paid"}
+              {booking.Payment[booking.Payment.length - 1].status ===
+              "Completed"
+                ? "Paid"
+                : "Pending"}
             </span>
-          )}
+          )} */}
         </div>
       </div>
 
@@ -142,24 +150,23 @@ export default function BookingComponent({
                 <div className="text-center font-semibold text-2xl">
                   Booking Confirmation
                 </div>
-                <div className="">
+                <div className="w-full flex flex-col">
                   <div className="mt-4 text-xl font-semibold">
                     {booking.property.title}
                   </div>
                   <div className="text-[#666] font-semibold">
                     {booking.property.address}
                   </div>
-                  <div className="text-[#666] flex gap-8">
+                  <div className="text-[#666] mt-2 flex flex-col">
                     <div>
                       Check-in:
-                      <br />
+                      {/* <br /> */}{" "}
                       <span className="font-semibold text-[#333]">
                         {new Date(booking.checkIn).toLocaleDateString()}
                       </span>
                     </div>
                     <div>
-                      Check-out:
-                      <br />
+                      Check-out: {/* <br /> */}
                       <span className="font-semibold text-[#333]">
                         {new Date(booking.checkOut).toLocaleDateString()}
                       </span>
@@ -168,13 +175,13 @@ export default function BookingComponent({
                 </div>
               </div>
               <div>
-                <div className="mb-2">
-                  Total Price:{" "}
+                <div className="mb-2  w-full flex border-t border-gray-400 pt-2 justify-between">
+                  <div>Total Price: </div>
                   <span className="font-semibold text-[#333]">
                     {booking.totalPrice}
                   </span>
                 </div>
-                <div className="flex items-start gap-2">
+                <div className="flex justify-end gap-2">
                   <button
                     onClick={handlePayment.bind(
                       this,

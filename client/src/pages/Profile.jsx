@@ -65,7 +65,7 @@ export default function Profile() {
 
             <div className="mt-2 ml-6 py-4">
               <h3 className="text-xl font-semibold">{property.title}</h3>
-              <p className="text-gray-500 line-clamp-6">
+              <p className="text-gray-500 line-clamp-6 text-justify pr-4">
                 {property.description}
               </p>
             </div>

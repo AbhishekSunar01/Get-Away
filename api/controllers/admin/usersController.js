@@ -27,56 +27,59 @@ const listOfUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
+  const userId = parseInt(id, 10); // Convert id to integer
+
   try {
-    // Get all properties of the user
-    const properties = await prisma.property.findMany({
-      where: {
-        userId: parseInt(id),
-      },
+    // Delete refresh tokens related to the user
+    await prisma.refreshToken.deleteMany({
+      where: { userId },
     });
 
-    // Delete images and bookings related to each property
+    // Delete properties and their related records
+    const properties = await prisma.property.findMany({
+      where: { userId },
+      select: { id: true },
+    });
+
     for (let property of properties) {
-      await prisma.image.deleteMany({
-        where: {
-          propertyId: property.id,
-        },
+      // Delete images related to the property
+      await prisma.Image.deleteMany({
+        where: { propertyId: property.id },
       });
 
-      await prisma.bookings.deleteMany({
-        where: {
-          propertyId: property.id,
-        },
+      // Delete bookings and their associated payments related to the property
+      const bookings = await prisma.bookings.findMany({
+        where: { propertyId: property.id },
+        select: { id: true },
+      });
+
+      for (let booking of bookings) {
+        await prisma.payment.deleteMany({
+          where: { bookingId: booking.id },
+        });
+
+        await prisma.bookings.delete({
+          where: { id: booking.id },
+        });
+      }
+
+      // Delete property
+      await prisma.property.delete({
+        where: { id: property.id },
       });
     }
 
-    // Delete properties
-    await prisma.property.deleteMany({
-      where: {
-        userId: parseInt(id),
-      },
-    });
-
-    // Delete refresh tokens
-    await prisma.refreshToken.deleteMany({
-      where: {
-        userId: parseInt(id),
-      },
-    });
-
     // Delete user
     await prisma.user.delete({
-      where: {
-        id: parseInt(id),
-      },
+      where: { id: userId },
     });
 
-    res.json({ message: "User and associated data deleted successfully" });
+    res.status(200).json({ message: "User deleted successfully." });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      error: "An error occurred while deleting the user and associated data.",
-    });
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the user." });
   }
 };
 
