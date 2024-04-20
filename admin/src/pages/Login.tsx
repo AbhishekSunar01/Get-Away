@@ -70,6 +70,7 @@ export function Login() {
                 <Input
                   id="password"
                   placeholder="password"
+                  type="password"
                   onChange={(e) => {
                     setUser({ ...user, password: e.target.value });
                   }}

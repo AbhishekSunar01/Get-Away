@@ -104,6 +104,15 @@ const addBooking = async (req, res) => {
         propertyId: parseInt(propertyId),
         userId,
         totalPrice, // Include the total price in the booking data
+        Payment: {
+          // Create a new payment with status "pending"
+          create: {
+            status: "pending",
+          },
+        },
+      },
+      include: {
+        Payment: true, // Include the payment in the returned booking data
       },
     });
 
@@ -131,12 +140,14 @@ const getBookings = async (req, res) => {
           },
         },
         user: true,
+        Payment: true, // Include the Payment model
       },
     });
 
-    // Print the user who added the property for each booking
+    // Print the user who added the property and payment status for each booking
     bookings.forEach((booking) => {
       console.log(booking.property.User);
+      console.log(booking.Payment); // Print the payment status
     });
 
     res.json(bookings);
@@ -149,9 +160,14 @@ const getBookings = async (req, res) => {
 };
 
 const deleteBooking = async (req, res) => {
-  const bookingId = req.params.id;
-
+  const { bookingId } = req.body;
   try {
+    await prisma.payment.deleteMany({
+      where: {
+        bookingId: parseInt(bookingId),
+      },
+    });
+
     await prisma.bookings.delete({
       where: {
         id: parseInt(bookingId),
@@ -167,4 +183,4 @@ const deleteBooking = async (req, res) => {
   }
 };
 
-module.exports = { addBooking, getBookings };
+module.exports = { addBooking, getBookings, deleteBooking };

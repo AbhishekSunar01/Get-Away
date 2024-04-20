@@ -2,8 +2,10 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function UpdatePlace() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [property, setProperty] = useState({
     title: "",
@@ -38,7 +40,9 @@ export default function UpdatePlace() {
     const response = await axios.delete(`property/delete/${id}`);
     if (response.status === 200) {
       console.log("Property deleted successfully");
+      toast.error("Property deleted successfully");
       fetchProperties();
+      navigate("/profile");
     } else {
       console.error("Failed to delete property:", response.data);
     }
@@ -54,8 +58,10 @@ export default function UpdatePlace() {
   async function updateProperty(e) {
     e.preventDefault();
     const response = await axios.put(`property/update/${id}`, property);
-    if (response.status === 200) {
+    if (response.data.success) {
       toast.success("Property updated successfully");
+    } else {
+      // toast.error("Failed to update property");
     }
   }
 
